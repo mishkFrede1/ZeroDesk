@@ -1,0 +1,21 @@
+{% extends 'MainApp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="funnel-display-font tag-title" style="font-weight: bold;">{{ tag.name }}</h1>
+{#        {% if tag.tag_elements.all|length <= 3 %}#}
+{#            <div class="tag-container few-articles">#}
+{#        {% else %}    #}
+{#            <div class="tag-container">#}
+{#        {% endif %}#}
+    <div class="tag-container few-articles">
+            {% for article in tag.tag_elements.all %}
+                <div class="article-card">
+                    <img src="{{ article.image.url }}" alt="Изображение"/>
+                    <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

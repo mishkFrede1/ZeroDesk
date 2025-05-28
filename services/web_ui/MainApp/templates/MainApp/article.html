@@ -1,0 +1,40 @@
+{% extends 'MainApp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="article-container">
+        <div class="article">
+            <h1>{{ article.title }}</h1>
+            <img src="{{ article.image.url }}" alt="{{ article.title }}"></img>
+            <p class="summary">{{ article.summary }}</p>
+            <div class="article-text">
+                {{ article.content|linebreaks }}
+            </div>
+            <div class="tag-block funnel-display-font">
+                <h2>Теги</h2>
+                <div class="tags">
+{#                    <a href="#" class="tag">Война на Украине</a>#}
+{#                    <a href="#" class="tag">Политика</a>#}
+{#                    <a href="#" class="tag">США</a>#}
+{#                    <a href="#" class="tag">Мировая экономика</a>#}
+                    {% for tag in article.tags.all %}
+                        <a href="{{ tag.get_absolute_url }}" class="tag">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <aside class="article-sidebar">
+            <h1>Главное</h1>
+{#            <ul class="popular-articles">#}
+{#                {% for popular in popular_articles %}#}
+{#                    <li><a href="">{{ popular.title }}</a></li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+            <ul>
+                <li>
+                    <div class="article-aside" style="background-image: ;"
+                </li>
+            </ul>
+        </aside>
+    </div>
+{% endblock %}
