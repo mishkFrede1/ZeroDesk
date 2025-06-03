@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'django.contrib.humanize',
 
-    'MainApp.apps.MainappConfig'
+    'MainApp.apps.MainappConfig',
 ]
 
 MIDDLEWARE = [

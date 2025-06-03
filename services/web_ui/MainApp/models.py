@@ -24,6 +24,7 @@ class Articles(models.Model):
 
     class Meta:
         verbose_name_plural = 'Articles'
+        ordering = ['-created_at']
 
 class Categories(models.Model):
     name = models.CharField(max_length=255)
@@ -31,6 +32,9 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("category", kwargs={"category_slug": self.slug})
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -43,7 +47,7 @@ class Tags(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("tag", kwargs={"slug": self.slug})
+        return reverse("tag", kwargs={"tag_slug": self.slug})
 
     class Meta:
         verbose_name_plural = 'Tags'

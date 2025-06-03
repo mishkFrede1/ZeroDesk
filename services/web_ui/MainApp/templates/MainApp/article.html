@@ -1,40 +1,43 @@
-{% extends 'MainApp/base.html' %}
+{% extends 'MainApp/new_base.html' %}
 {% load static %}
+{% load custom_naturaltime %}
 
 {% block content %}
-    <div class="article-container">
-        <div class="article">
+    <div class="article-main-container">
+        <div class="article-container">
+            <a href="{{ article.category.get_absolute_url }}" class="article-category">{{ article.category }}</a>
             <h1>{{ article.title }}</h1>
-            <img src="{{ article.image.url }}" alt="{{ article.title }}"></img>
-            <p class="summary">{{ article.summary }}</p>
-            <div class="article-text">
-                {{ article.content|linebreaks }}
+            <div class="article-info">
+                {{ article.created_at }}
             </div>
-            <div class="tag-block funnel-display-font">
-                <h2>Теги</h2>
-                <div class="tags">
-{#                    <a href="#" class="tag">Война на Украине</a>#}
-{#                    <a href="#" class="tag">Политика</a>#}
-{#                    <a href="#" class="tag">США</a>#}
-{#                    <a href="#" class="tag">Мировая экономика</a>#}
-                    {% for tag in article.tags.all %}
-                        <a href="{{ tag.get_absolute_url }}" class="tag">{{ tag.name }}</a>
-                    {% endfor %}
+            <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+            <div class="article-content">
+                <p><strong>{{ article.summary }}</strong></p>
+                {{ article.content|linebreaks }}
+                
+                <div class="article-tags">
+                    <h2>TAGS</h2>
+                    <div class="tags-container">
+                        {% for tag in article.tags.all %}
+                            <a href="{{ tag.get_absolute_url }}" class="tag">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-        <aside class="article-sidebar">
-            <h1>Главное</h1>
-{#            <ul class="popular-articles">#}
-{#                {% for popular in popular_articles %}#}
-{#                    <li><a href="">{{ popular.title }}</a></li>#}
-{#                {% endfor %}#}
-{#            </ul>#}
-            <ul>
-                <li>
-                    <div class="article-aside" style="background-image: ;"
-                </li>
-            </ul>
-        </aside>
+        <div class="article-sidebar">
+            <div class="article-sidebar-more">
+                <div class="article-sidebar-title">
+                    <div></div>
+                    <h2>MORE</h2>
+                </div>
+                {% for article in sidebar_articles %}
+                <a href="{{ article.get_absolute_url }}" class="sidebar-article">
+                    <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                    <div><h4>{{ article.title }}</h4></div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

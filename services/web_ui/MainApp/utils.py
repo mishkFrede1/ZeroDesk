@@ -1,8 +1,8 @@
 nav = [
-    {"title": "Главная", "url": "root"},
-    {"title": "Самое свежее", "url": "root"},
-    {"title": "Статьи", "url": "root"},
-    {"title": "Категории", "url": "root"},
+    {"title": "Главная", "url": "home"},
+    {"title": "Самое свежее", "url": "home"},
+    {"title": "Статьи", "url": "home"},
+    {"title": "Категории", "url": "home"},
 ]
 
 # class DataMixin:

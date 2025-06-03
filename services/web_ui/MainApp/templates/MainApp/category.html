@@ -1,0 +1,21 @@
+{% extends 'MainApp/new_base.html' %}
+{% load static %}
+{% load custom_naturaltime %}
+
+{% block content %}
+    <div class="page-container">
+        <div class="title-center"><h1>{{ category.name }}</h1></div>
+        <div class="category-articles-container">
+            {% for article in page_obj %}
+                <div class="category-article">
+                    <a href="{{ article.get_absolute_url }}" class="image-wrapper">
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                        <h3>{{ article.title }}</h3>
+                        <h5>{{ article.created_at|custom_natural_time }}</h5>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        {% include 'MainApp/include/pagination.html' %}
+    </div>
+{% endblock %}

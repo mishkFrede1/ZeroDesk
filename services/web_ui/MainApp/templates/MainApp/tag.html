@@ -1,21 +1,25 @@
-{% extends 'MainApp/base.html' %}
+{% extends 'MainApp/new_base.html' %}
 {% load static %}
+{% load custom_naturaltime %}
 
 {% block content %}
-    <div class="container">
-        <h1 class="funnel-display-font tag-title" style="font-weight: bold;">{{ tag.name }}</h1>
-{#        {% if tag.tag_elements.all|length <= 3 %}#}
-{#            <div class="tag-container few-articles">#}
-{#        {% else %}    #}
-{#            <div class="tag-container">#}
-{#        {% endif %}#}
-    <div class="tag-container few-articles">
-            {% for article in tag.tag_elements.all %}
-                <div class="article-card">
-                    <img src="{{ article.image.url }}" alt="Изображение"/>
-                    <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
-                </div>
+    <div class="tag-page-container">
+        <div class="title-center"><h1>{{ tag.name }}</h1></div>
+        <div class="tags-list-container">
+            {% for article in page_obj %}
+                <a href="{{ article.get_absolute_url }}" class="tags-list-article" style="text-decoration: none;">
+                    <div class="tag-article-text">
+                        <h2>{{ article.title }}</h2>
+                        <div class="tag-article-date">{{ article.created_at|custom_natural_time }}</div>
+                        <div class="tag-article-summary">{{ article.summary }}</div>
+                    </div>
+                    <div class="tag-article-img">
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                    </div>
+                </a>
+                <hr>
             {% endfor %}
         </div>
+        {% include 'MainApp/include/pagination.html' %}
     </div>
 {% endblock %}

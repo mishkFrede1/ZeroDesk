@@ -1,0 +1,85 @@
+{% extends 'MainApp/new_base.html' %}
+{% load static %}
+{% load custom_naturaltime %}
+
+{% block content %}
+<div class="ibm-plex-mono-medium main-container">
+    <div class="left-container">
+        <div class="main-about">
+            <div class="main-left-quote">"The press holds the power to do great good or immense harm. It is a power that demands wisdom, or it will destroy itself."</div>
+            <div class="main-left-quote-author">— Inspired by the ideas of Joseph Pulitzer</div>
+        </div>
+        <div class="main-left-news">
+            <h2>NEWS</h2>
+            {% for article in left_articles %}
+                <div class="left-article">
+                    <a href="{{article.get_absolute_url}}" class="image-wrapper">
+                        <img style="border-radius:5px;" src="{{article.image.url}}" alt="{{article.title}}"/>
+                        <h2>{{ article.title }}</h2>
+                        <span class="left-article-date">{{ article.created_at|custom_natural_time }}</span>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="center-container">
+        <div class="main-quote">
+            <a>Beyond headlines. Beneath the noise.</a>
+        </div>
+        {% for article in main_articles %}
+            <div class="main-article">
+                <a href="{{ article.get_absolute_url }}" class="image-wrapper">
+                    <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                    <span>{{ article.created_at|custom_natural_time }}</span>
+                    <h1>{{ article.title }}</h1>
+                    <h3>{{ article.summary }}</h3>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="right-container">
+        <div class="categories">
+            <h2>CATEGORIES</h2>
+            <ul class="categories-list">
+                {% for category in categories %}
+                    <li class="category">
+                        <div class="category-line"></div>
+                        <div class="category-name">
+                            <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                            <h3>⟶</h3>
+                        </div>
+                    </li>
+                {% endfor %}
+                <div class="category-line"></div>
+            </ul>
+            <a class="category-button" href="{% url 'more_categories' %}"><div>More</div> ⟶</a>
+        </div>
+        <div class="popular-tags">
+            <h2>POPULAR TAGS</h2>
+            <div class="tags-container">
+                {% for tag in popular_tags %}
+                    <a href="{{ tag.get_absolute_url }}" class="tag">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-container-bottom">
+    {% for item in categories_with_articles %}
+        <div class="category-news-container">
+            <div class="border-line"></div>
+            <a href="{{ item.category.get_absolute_url }}" class="image-wrapper article-wrapper">
+                <h2>{{ item.category.name }}</h2>
+                <img src="{{ item.first_article.image.url }}" alt="{{ item.first_article.title }}"/>
+            </a>
+            <a href="{{ item.first_article.get_absolute_url }}" class="bottom-article-title">{{ item.first_article.title }}</a>
+            {% for article in item.articles %}
+                <hr>
+                <h4><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h4>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
