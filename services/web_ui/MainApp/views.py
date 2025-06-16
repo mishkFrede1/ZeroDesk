@@ -2,10 +2,12 @@ from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from MainApp.models import *
 from MainApp.paginations import ArticlesPagination
-from MainApp.permissions import OnlySafeMethodsPermission
+from MainApp.permissions import IsNeuralNetUser
 from MainApp.serializers import ArticleSerializer, CategoriesSerializer, TagsSerializer
 
 
@@ -99,18 +101,19 @@ class ArticlesViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Articles.objects.all()
     pagination_class = ArticlesPagination
-    permission_classes = [OnlySafeMethodsPermission]
+    permission_classes = [IsAuthenticated, IsNeuralNetUser]
 
 class CategoriesViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriesSerializer
     queryset = Categories.objects.all()
     pagination_class = None
-    permission_classes = [OnlySafeMethodsPermission]
+    permission_classes = [IsAuthenticated, IsNeuralNetUser]
 
 class TagsViewSet(viewsets.ModelViewSet):
     serializer_class = TagsSerializer
     queryset = Tags.objects.all()
+    lookup_field = "slug"
     pagination_class = None
-    permission_classes = [OnlySafeMethodsPermission]
+    permission_classes = [IsAuthenticated, IsNeuralNetUser]
 
 
