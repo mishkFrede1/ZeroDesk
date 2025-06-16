@@ -13,7 +13,7 @@
             <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
             <div class="article-content">
                 <p><strong>{{ article.summary }}</strong></p>
-                {{ article.content|linebreaks }}
+                {{ article.content|safe }}
                 
                 <div class="article-tags">
                     <h2>TAGS</h2>
