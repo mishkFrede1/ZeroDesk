@@ -260,6 +260,7 @@
 .left-article a img {
     margin-bottom: 8px;
     border-radius: 10px;
+    object-fit: cover;
 }
 .left-article a h2:hover {
     text-decoration: underline 1px;
