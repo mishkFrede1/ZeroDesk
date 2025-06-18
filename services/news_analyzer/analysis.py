@@ -18,11 +18,33 @@ TOKEN_DOTENV_PATH = BASE_DIR / ".env"
 TOKEN = dotenv_values(TOKEN_DOTENV_PATH)["neural_network_user_token"]
 
 def slugify(s):
-  s = s.lower().strip()
-  s = re.sub(r'[^\w\s-]', '', s)
-  s = re.sub(r'[\s_-]+', '-', s)
-  s = re.sub(r'^-+|-+$', '', s)
-  return s
+    s = s.lower().strip()
+    s = re.sub(r'[^\w\s-]', '', s)
+    s = re.sub(r'[\s_-]+', '-', s)
+    s = re.sub(r'^-+|-+$', '', s)
+    return s
+
+def send_message_to_llm(system_prompt, content):
+    return requests.post(
+        url="https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json",
+        },
+        data=json.dumps({
+            "model": "deepseek/deepseek-r1-0528:free",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": content
+                }
+            ],
+        })
+    )
 
 def send_to_webui(analyzed_article):
     print("[WEBUI SENDER] Start process new article ...")
@@ -75,27 +97,9 @@ def send_to_webui(analyzed_article):
 
 def llm_analyze_article(raw_article: RawArticle):
     print("[ANALYZER] Process article...")
-    response = requests.post(
-        url="https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {API_KEY}",
-            "Content-Type": "application/json",
-        },
-        data=json.dumps({
-            "model": "deepseek/deepseek-r1-0528:free",
-            "messages": [
-                {
-                    "role": "system",
-                    "content": config.SYSTEM_PROMPT_FOR_LLM_2
-                },
-                {
-                    "role": "user",
-                    "content": f"html: {raw_article.html}, category: {raw_article.category}"
-                }
-            ],
-        })
-    )
+    response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_LLM_3, f"html: {raw_article.html}, category: {raw_article.category}")
     print("[ANALYZER] Response content -", response.content)
+
     raw = response.json()["choices"][0]["message"]["content"]
     print("[ANALYZER] Done")
     print("[ANALYZER] Raw\n", raw)
@@ -106,7 +110,23 @@ def llm_analyze_article(raw_article: RawArticle):
     print("[ANALYZER] Returned")
     return raw_dict
 
+def send_to_tag_llm(title: str, tags: list):
+    response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_TAG_LLM, f"Title of the article: {title}\nList of Tags: {' | '.join(tags)}")
+    raw = response.json()["choices"][0]["message"]["content"]
+    print("[TAGS ANALYZER] Raw\n", raw)
+    raw_dict = json.loads(raw)
+    raw_dict["html"] = raw_dict["html"].replace("\n", "")
+    print("[TAGS ANALYZER] Returned")
+    return raw_dict
+
 def process_article(raw_article: RawArticle):
-    analyzed_article = llm_analyze_article(raw_article)
+    try:
+        analyzed_article = llm_analyze_article(raw_article)
+    except json.decoder.JSONDecodeError:
+        analyzed_article = llm_analyze_article(raw_article)
+
+    tags = send_to_tag_llm(analyzed_article["title"], analyzed_article["tags"])["tags"]
+    analyzed_article["tags"] = tags["tags"]
+
     send_to_webui(analyzed_article)
 

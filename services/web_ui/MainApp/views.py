@@ -23,7 +23,7 @@ class IndexView(ListView):
         context["main_articles"] = context["articles"][:2]
         context["left_articles"] = context["articles"][2:6]
         context["categories"] = Categories.objects.all()[:9]
-        context["popular_tags"] = Tags.objects.annotate(article_count=Count('tag_elements')).order_by('-article_count')
+        context["popular_tags"] = Tags.objects.annotate(article_count=Count('tag_elements')).order_by('-article_count')[:50]
         categories_with_articles = []
         exclude_articles = [ article.pk for article in context["main_articles"]|context["left_articles"] ]
         for category in Categories.objects.filter(name__in=self.bottom_categories):

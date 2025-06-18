@@ -8,6 +8,8 @@ def send_to_analyzer(article_data):
         response = requests.post(ANALYZER_API, json=article_data)
         response.raise_for_status()
         print(response)
+        return True
 
     except Exception as e:
         print("[ERROR]:", e)
+        return False

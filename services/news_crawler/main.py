@@ -7,12 +7,16 @@ import time
 def run():
     try:
         articles = parse_all_sources(0)
+        length = len(articles)
+        print(f"[MAIN_PARSER] Start sending: {length} articles")
         for article in articles:
             print("[INFO] Sent article to analyzer:", article["guid"])
-            send_to_analyzer(article)
-            print("[INFO] Analyzer article:", article["guid"])
+            r = send_to_analyzer(article)
+            if not r: length -= 1
+            else:
+                print("[INFO] Analyzed article:", article["guid"])
             time.sleep(1)
-        print(f"[MAIN_PARSER] Parsed: {len(articles)} articles")
+        print(f"[MAIN_PARSER] Parsed and sent: {length} articles")
 
     except Exception as e:
         print("[ERROR]:", e)

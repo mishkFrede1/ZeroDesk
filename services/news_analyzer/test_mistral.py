@@ -2,30 +2,34 @@ import requests
 import json
 from dotenv import dotenv_values
 
-from config import SYSTEM_PROMPT_FOR_LLM
+from config import SYSTEM_PROMPT_FOR_TAG_LLM
 
 
 API_KEY = dotenv_values('.env')['OPEN_ROUTER_API_KEY']
 
-response = requests.post(
-    url="https://openrouter.ai/api/v1/chat/completions",
-    headers={
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json",
-    },
-    data=json.dumps({
-        "model": "deepseek/deepseek-r1-0528:free",
-        "messages": [
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT_FOR_LLM
-            },
-            {
-                "role": "user",
-                "content": '{"html": "<h1>Silicon Valley Bank collapse renews calls to address disparities impacting entrepreneurs of color</h1><p>When customers atSilicon Valley Bankrushed to withdraw billions of dollars last month, venture capitalist Arlan Hamilton stepped in to help some of the founders of color who panicked about losing access to payroll funds.</p>\n<p>As a Black woman with nearly 10 years of business experience, Hamilton knew the options for those startup founders were limited.</p>\n<p>SVB had a reputation for servicing people from underrepresented communities like hers. Its failure has reignited concerns from industry experts about lending discrimination in the banking industry and the resulting disparities in capital for people of color.</p>\n<p>Hamilton, the 43-year-old founder and managing partner of Backstage Capital, said that when it comes to entrepreneurs of color, “we’re already in the smaller house. We already have the rickety door and the thinner walls. And so, when a tornado comes by, we’re going to get hit harder.”</p>\n<p>Established in 1983, the midsize California tech lender was America’s 16th largest bank at the end of 2022 beforeit collapsed on March 10.SVB provided banking services to nearly half of all venture-backed technology and life-sciences companies in the United States.</p>\n<p>Hamilton, industry experts and other investors told CNN the bank was committed to fostering a community of minority entrepreneurs and provided them with both social and financial capital.</p>\n<p>SVB regularly sponsored conferences and networking events for minority entrepreneurs, said Hamilton, and it was well known for funding the annualState of Black Venture Reportspearheaded by BLK VC, a nonprofit organization that connects and empowers Black investors.</p>\n<p>“When other banks were saying no, SVB would say yes,” said Joynicole Martinez, a 25-year entrepreneur and chief advancement and innovation officer for Rising Tide Capital, a nonprofit organization founded in 2004 to connect entrepreneurs with investors and mentors.</p>\n<p>Martinez is also an official member of the Forbes Coaches Council, an invitation-only organization for business and career coaches. She said SVB was an invaluable resource for entrepreneurs of color and offered their clientsdiscounted tech toolsand research funding.</p>\n<h2>Many women and people of color say they are turned away</h2>\n<p>Minority business owners have long faced challenges accessing capital due to discriminatory lending practices, experts say. Data from theSmall Business Credit Survey, a collaboration of all 12 Federal Reserve banks, shows disparities on denial rates for bank and nonbank loans.</p>\n<p>In 2021, about 16% of Black-led companies acquired the total amount of business financing they sought from banks, compared to 35% of White-owned companies, the survey shows.</p>\n<p>“We know there’s historic, systemic, and just blatant racism that’s inherent in lending and banking. We have to start there and not tip-toe around it,” Martinez told CNN.</p>\n<p>Asya Bradley is an immigrant founder of multiple tech companies like Kinley, a financial services business aiming to help Black Americans build generational wealth. Following SVB’s collapse, Bradley said she joined a WhatsApp group of more than 1,000 immigrant business founders. Members of the group quickly mobilized to support one another, she said.</p>\n<p>Immigrant founders often don’t have Social Security numbers nor permanent addresses in the United States, Bradley said, and it was crucial to brainstorm different ways to find funding in a system that doesn’t recognize them.</p>\n<p>“The community was really special because a lot of these folks then were sharing different things that they had done to achieve success in terms of getting accounts in different places. They also were able to share different regional banks that have stood up and been like, ‘Hey, if you have accounts at SVB, we can help you guys,’” Bradley said.</p>\n<p>Many women, people of color and immigrants opt for community or regional banks like SVB, Bradley says, because they are often rejected from the “top four banks” — JPMorgan Chase, Bank of America, Wells Fargo and Citibank.</p>\n<p>In her case, Bradley said her gender might have been an issue when she could only open a business account at one of the “top four banks” when her brother co-signed for her.</p>\n<p>“The top four don’t want our business. The top four are rejecting us consistently. The top four do not give us the service that we deserve. And that’s why we’ve gone to community banks and regional banks such as SVB,” Bradley said.</p>\n<p>None of the top four banks provided a comment to CNN. The Financial Services Forum, an organization representing the eight largest financial institutions in the United States has said the banks have committed millions of dollars since 2020 to address economic and racial inequality.</p>\n<p>Last week,JPMorgan Chase CEO Jamie Dimontold CNN’s Poppy Harlow that his bank has 30% of its branches in lower-income neighborhoods as part of a $30 billion commitment to Black and Brown communities across the country.</p>\n<p>Wells Fargo specifically pointed to its 2022 Diversity, Equity, and Inclusion report, which discusses the bank’s recent initiatives to reach underserved communities.</p>\n<p>The bank partnered last year with the Black Economic Alliance to initiate the Black Entrepreneur Fund — a $50 million seed, startup, and early-stage capital fund for businesses founded or led by Black and African American entrepreneurs. And since May 2021, Wells Fargo has invested in 13 Minority Depository Institutions, fulfilling its $50 million pledge to support Black-owned banks.</p>\n<p>Black-owned banks work to close the lending gap and foster economic empowerment in these traditionally excluded communities, but their numbers have been dwindling over the years, and they have far fewer assets at their disposal than the top banks.</p>\n<p>OneUnited Bank, the largest Black-owned bank in the United States, manages a little over $650 million in assets. By comparison, JPMorgan Chase manages $3.7 trillion in assets.</p>\n<h2>SVB’s collapse could spark future change, entrepreneur says</h2>\n<p>Because of these disparities, entrepreneurs also seek funding from venture capitalists. In the early 2010s, Hamilton intended to start her own tech company — but as she searched for investors, she saw that White men control nearly all venture capital dollars. That experience led her to establish Backstage Capital, a venture capital fund that invests in new companies led by underrepresented founders.</p>\n<p>“I said, ‘Well, instead of trying to raise money for one company, let me try to raise for a venture fund that will invest in underrepresented — and now we call them underestimated — founders who are women, people of color, and LGBTQ specifically,’ because I am all three,” Hamilton told CNN.</p>\n<p>Since then, Backstage Capital has amassed a portfolio of nearly 150 different companies and has made over 120 diversity investments, according todata from Crunchbase.</p>\n<p>But Bradley, who is also an ‘angel investor’ of minority-owned businesses, said she remains “really hopeful” that community banks, regional banks and fintechs “will all stand up and say, ‘Hey, we are not going to let the good work of SVB go to waste.’”</p><img src="https://media.cnn.com/api/v1/images/stellar/prod/230410122011-arlan-hamilton-joynicole-martinez-asya-bradley-split-restricted.jpg?c=16x9&q=h_833,w_1480,c_fill" alt="Entrepreneurs like Arlan Hamilton, left, Joynicole Martinez, center, and Asya Bradley, right, worry the collapse of Silicon Valley Bank could decrease funding opportunities for people of color. | height=900, width=1600"/>\n<img src="https://media.cnn.com/api/v1/images/stellar/prod/230410105412-08-silicon-valley-bank-svb-0310.jpg?q=w_1110,c_fill" alt="A bank run took down Silicon Valley Bank on March 10, as depositors withdrew $42 billion in a single day. | height=1334, width=2000"/>\n<img src="https://media.cnn.com/api/v1/images/stellar/prod/natasha-lindstaedt.jpg?c=16x9&q=h_144,w_256,c_fill" alt="Natasha Lindstaedt.jpg | height=1080, width=1920"/>\n<img src="https://media.cnn.com/api/v1/images/stellar/prod/231019144950-105201-regenerativeagriculture-thumb-1.jpg?c=16x9&q=h_144,w_256,c_fill" alt="105201_RegenerativeAgriculture_Thumb 1 | height=1080, width=1920"/>\n<img src="https://media.cnn.com/api/v1/images/stellar/prod/jon-stewart-6-9.jpg?c=16x9&q=h_144,w_256,c_fill" alt="Jon Stewart 6-9.jpg | height=1080, width=1920"/>\n<img src="https://media.cnn.com/api/v1/images/stellar/videothumbnails/45874486-82742023-generated-thumbnail.jpg?c=16x9&q=h_144,w_256,c_fill" alt="<p>Iraq\'s Kurdistan Region is tapping into its cultural and natural wealth to grow its tourism sector. CNN explores how it is marketing itself to international visitors and investors.</p> | height=1080, width=1920"/>", "category": "business"}'
-            }
-        ],
+def sort_tags(title: str, tags: list):
+    response = requests.post(
+        url="https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json",
+        },
+        data=json.dumps({
+            "model": "deepseek/deepseek-r1-0528:free",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT_FOR_TAG_LLM
+                },
+                {
+                    "role": "user",
+                    "content": f"Title of the article: {title}\nList of Tags: {' | '.join(tags)}"
+                }
+            ],
 
-    })
-)
-print(response.json()["choices"][0]["message"]["content"])
+        })
+    )
+    print(response.json()["choices"][0]["message"]["content"])
+    input("Press Enter to continue...")
+
+sort_tags("US Federal Reserve Holds Interest Rates Steady Amid Economic Uncertainty", ["USA", "Economy", "Finance", "Politics", "Banking"])
