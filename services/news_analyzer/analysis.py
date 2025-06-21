@@ -110,23 +110,20 @@ def llm_analyze_article(raw_article: RawArticle):
     print("[ANALYZER] Returned")
     return raw_dict
 
-def send_to_tag_llm(title: str, tags: list):
-    response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_TAG_LLM, f"Title of the article: {title}\nList of Tags: {' | '.join(tags)}")
-    raw = response.json()["choices"][0]["message"]["content"]
-    print("[TAGS ANALYZER] Raw\n", raw)
-    raw_dict = json.loads(raw)
-    raw_dict["html"] = raw_dict["html"].replace("\n", "")
-    print("[TAGS ANALYZER] Returned")
-    return raw_dict
+# def send_to_tag_llm(title: str, tags: list):
+#     response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_TAG_LLM, f"Title of the article: {title}\nList of Tags: {' | '.join(tags)}")
+#     raw = response.json()["choices"][0]["message"]["content"]
+#     print("[TAGS ANALYZER] Raw\n", raw)
+#     raw_dict = json.loads(raw)
+#     raw_dict["html"] = raw_dict["html"].replace("\n", "")
+#     print("[TAGS ANALYZER] Returned")
+#     return raw_dict
 
 def process_article(raw_article: RawArticle):
     try:
         analyzed_article = llm_analyze_article(raw_article)
     except json.decoder.JSONDecodeError:
         analyzed_article = llm_analyze_article(raw_article)
-
-    tags = send_to_tag_llm(analyzed_article["title"], analyzed_article["tags"])["tags"]
-    analyzed_article["tags"] = tags["tags"]
 
     send_to_webui(analyzed_article)
 

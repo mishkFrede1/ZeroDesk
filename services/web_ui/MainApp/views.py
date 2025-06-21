@@ -52,7 +52,7 @@ class ArticleDetailView(DetailView):
         #     random_num = random.randint(0, len(sidebar_articles)-3)
         #     context["sidebar_articles"] = sidebar_articles[random_num:random_num+3]
         # else: context["sidebar_articles"] = sidebar_articles
-        context["sidebar_articles"] = Articles.objects.filter(tags__in=context["article"].tags.all()).exclude(pk=context["article"].pk)[:5]
+        context["sidebar_articles"] = set(Articles.objects.filter(tags__in=context["article"].tags.all()).exclude(pk=context["article"].pk)[:5])
         return context
 
 class TagListView(ListView):

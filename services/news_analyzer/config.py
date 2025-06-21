@@ -93,11 +93,11 @@ SYSTEM_PROMPT_FOR_LLM_2 = (
     "DO NOT MENTION THE SOURCE OF THE ORIGINAL ARTICLE, FOR EXAMPLE: BBC, Fox News, CNN News, etc..."
     
     "Use <h2> only for important subheadings that split the article into meaningful parts."
-
     '- If the article is a structured list (e.g., "Top 10 Places", "7 Reasons", "25 Tips"), use <h2> for each list item.'
     "- Otherwise, do NOT overuse <h2>. Usually 2–5 subheadings is enough."
     "- Avoid putting <h2> just to break small thoughts or paragraphs — use them only if there's a clear theme."
-    "- Do not repeat or overuse titles in subheadings."
+    "- Do not repeat or overuse titles in subheadings. "
+    "Also if you want to use - '...' in subheadings, use - \"...\" instead"
     
     "Use images between paragraphs that best fit the topic of the article, "
     "and use the same images as in html as the src. Choose one image as the title image and "
@@ -241,7 +241,7 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     "\n\n"
     "== EXAMPLE ==\n"
     "{\n"
-    "  \"title\": \"The 10 Most Visited Cities in 2025\",\n"
+    "  \"title\": \"The 10 most visited cities in 2025\",\n"
     "  \"title_image\": \"<img src=\\\"https://example.com/image.jpg\\\" alt=\\\"City skyline\\\"/>\",\n"
     "  \"slug\": \"most-visited-cities-2025\",\n"
     "  \"summary\": \"Explore the top global cities that travelers chose most in 2025, from vibrant Tokyo to historic Rome.\",\n"
@@ -251,34 +251,35 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     "}"
 )
 
-SYSTEM_PROMPT_FOR_TAG_LLM = (
-    "Your main task is to sort the list of tags and filter out unnecessary tags that: "
-    "1. They consist of more than two or three words"
-    "2. Too narrowly focused"
-    "3. They are not popular and do not cover many articles."
-    '4. They are too specific and talk about any subject, action, process.: "Recovery", "Therapy", "Water", "Climate Change", "Fisheries", "Affordable Housing", "Rehabilitation", "Sustainability", "Gender Equality".'
-    "ALLOWED TAG TYPES:"
-    "- Country names: \"USA\", \"UK\", \"Russia\", \"China\""
-    "- Global domains: \"Politics\", \"Health\", \"Military\", \"Technology\", \"Education\", \"Culture\", \"Economy\", \"Environment\""
-    "- Global sectors: \"Travel\", \"Media\", \"Business\", \"Energy\", \"Science\""
-    "- Famous people: \"Trump\", \"Zelensky\", \"Putin\" — only if they play a major role in the article"
-    "- Continents or regions: \"Africa\", \"Asia\", \"Europe\", \"Middle East\", \"South America\""
-    "RULES (STRICT!):"
-    "1. Each tag must be 1 or 2 words maximum."
-    "2. Tags must be BROAD, GENERAL and REUSABLE across many articles."
-    
-    "BAD EXAMPLES:"
-    '["Climate Change", "Fisheries", "Affordable Housing", "Rehabilitation", "Sustainability", "Gender Equality"]'
-    "GOOD EXAMPLES:"
-    '["USA", "Politics", "Health", "Economy", "Technology", "Environment", "Africa"]'
-    
-    "Your response must start with '{' and end with '}', and contain ONLY JSON, nothing else.\n"
-    "DO NOT use backticks (`), triple quotes, or markdown formatting.\n"
-
-    "\n\n"
-    "== EXAMPLE ==\n"
-    "{\n"
-    "  \"title\": \"The 10 Most Visited Cities in 2025\",\n"
-    "  \"tags\": [\"Travel\", \"Cities\", \"Tourism\", \"Asia\", \"Europe\"]\n"
-    "}"
-)
+# SYSTEM_PROMPT_FOR_TAG_LLM = (
+#     "Your main task is to sort the list of tags and filter out unnecessary tags that: "
+#     "1. They consist of more than two or three words"
+#     "2. Too narrowly focused"
+#     "3. They are not popular and do not cover many articles."
+#     '4. They are too specific and talk about any subject, action, process.: "Recovery", "Therapy", "Water", "Climate Change", "Fisheries", "Affordable Housing", "Rehabilitation", "Sustainability", "Gender Equality".'
+#     "ALLOWED TAG TYPES:"
+#     "- Country names: \"USA\", \"UK\", \"Russia\", \"China\""
+#     "- Global domains: \"Politics\", \"Health\", \"Military\", \"Technology\", \"Education\", \"Culture\", \"Economy\", \"Environment\""
+#     "- Global sectors: \"Travel\", \"Media\", \"Business\", \"Energy\", \"Science\""
+#     "- Famous people: \"Trump\", \"Zelensky\", \"Putin\" — only if they play a major role in the article"
+#     "- Continents or regions: \"Africa\", \"Asia\", \"Europe\", \"Middle East\", \"South America\""
+#     "- Popular or hype themes like: \"AI\", \"War\", \"\", \"\", "
+#     "RULES (STRICT!):"
+#     "1. Each tag must be 1 or 2 words maximum."
+#     "2. Tags must be BROAD, GENERAL and REUSABLE across many articles."
+#
+#     "BAD EXAMPLES:"
+#     '["Climate Change", "Fisheries", "Affordable Housing", "Rehabilitation", "Sustainability", "Gender Equality"]'
+#     "GOOD EXAMPLES:"
+#     '["USA", "Politics", "Health", "Economy", "Technology", "Environment", "Africa", "AI", "Google", "Amazon", "Steve Jobs"]'
+#
+#     "Your response must start with '{' and end with '}', and contain ONLY JSON, nothing else.\n"
+#     "DO NOT use backticks (`), triple quotes, or markdown formatting.\n"
+#
+#     "\n\n"
+#     "== EXAMPLE ==\n"
+#     "{\n"
+#     "  \"title\": \"The 10 Most Visited Cities in 2025\",\n"
+#     "  \"tags\": [\"Travel\", \"Cities\", \"Tourism\", \"Asia\", \"Europe\"]\n"
+#     "}"
+# )
