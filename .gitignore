@@ -179,3 +179,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+services/web_ui/media/article_images/
+services/news_crawler/articles.db
+services/web_ui/db.sqlite3
+
