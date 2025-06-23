@@ -9,6 +9,11 @@ from config import HEADERS, PCGAMER_LINK
 from database import is_article_exists, save_article
 from .bbc import get_max_quality_image_url
 
+def check_img_class(class_):
+    if class_:
+        return class_[0] in ['aspect-[--img-listing-aspect-ratio,16/9]', 'hawk-lazy-image-deal-widget', 'author__avatar', 'image-wrapped__image', 'image__image']
+    return False
+
 def parse_article(link, category):
     response = requests.get(link, headers=HEADERS)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -32,7 +37,7 @@ def parse_article(link, category):
             article_html += f"<h2>{element.get_text(strip=True)}</h2>\n"
         if element.name == "img":
             high_quality_src = get_max_quality_image_url(element)
-            if "youtube" in high_quality_src or element.get("class")[0] in ['aspect-[--img-listing-aspect-ratio,16/9]', 'hawk-lazy-image-deal-widget', 'author__avatar', 'image-wrapped__image', 'image__image']:
+            if "youtube" in high_quality_src or check_img_class(element.get("class")):
                 continue
             alt = element.get("alt", "")
             if high_quality_src:
