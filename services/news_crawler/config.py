@@ -1,5 +1,10 @@
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 
+PCGAMER_LINK = {
+    "url": "https://www.pcgamer.com/rss/",
+    "category": "Video Games"
+}
+
 BBC_CATEGORIES = [
     {
         "url": "http://feeds.bbci.co.uk/news/rss.xml",

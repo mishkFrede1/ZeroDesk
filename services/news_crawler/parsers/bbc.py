@@ -1,6 +1,5 @@
 from datetime import datetime
 from random import randint
-
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -73,7 +72,6 @@ def parse_article(guid, category):
 
     save_article(guid, title, datetime.now())
     html = article_html.strip()
-    html = html.replace("480", "<br/>")
     return {
         "guid": guid,
         "html": html,
@@ -87,7 +85,7 @@ def parse_bbc_news(url, category, articles_count):
 
     articles = []
     for index, entry in enumerate(feed.entries):
-        print("[PARSER]", entry.guid, is_article_exists(entry.guid))
+        print("[BBC PARSER]", entry.guid, is_article_exists(entry.guid))
         if "live-news" in entry.guid or "videos" in entry.guid or is_article_exists(entry.guid):
             continue
         parsed_article = parse_article(entry.guid, category)
