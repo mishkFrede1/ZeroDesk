@@ -14,6 +14,23 @@
             <div class="article-content">
                 <p><strong>{{ article.summary }}</strong></p>
                 {{ article.content|safe }}
+
+                <div class="related-articles">
+                    <h2>ARTICLES LIKE THIS</h2>
+                    <hr class="related-articles-outer-hr">
+                    <div class="related-articles-content">
+                        {% for article in related_articles %}
+                            <a href="{{ article.get_absolute_url }}" class="image-wrapper related-article-div">
+                                <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                                <h3>{{ article.title }}</h3>
+                            </a>
+                            {% if not forloop.last %}
+                                <hr style="border: none; border-top: 1px solid #ccc;">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <hr class="related-articles-outer-hr">
+                </div>
                 
                 <div class="article-tags">
                     <h2>TAGS</h2>

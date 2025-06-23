@@ -6,7 +6,7 @@
     {% for category in categories %}
         <div class="news-card">
             <div class="category-title">▌<h3><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></h3></div>
-            <a href="{{ category.category_elements.first.get_absolute_url }}" class="image-wrapper category-wrapper">
+            <a href="{{ category.get_absolute_url }}" class="image-wrapper category-wrapper">
                 <img src="{{ category.category_elements.first.image.url }}" alt="{{ category.category_elements.first.title }}">
                 <h4 class="main-headline">{{ category.category_elements.first.title }}</h4>
             </a>

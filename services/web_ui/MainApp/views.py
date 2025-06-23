@@ -1,3 +1,5 @@
+from random import randint
+
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
@@ -20,6 +22,7 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(kwargs)
+        context["articles"] = Articles.objects.exclude(category__name="Video Games")
         context["main_articles"] = context["articles"][:2]
         context["left_articles"] = context["articles"][2:6]
         context["categories"] = Categories.objects.all()[:9]
@@ -47,12 +50,12 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(kwargs)
-        # sidebar_articles = context["article"].category.category_elements.exclude(title=context["article"].title)
-        # if len(sidebar_articles) > 3:
-        #     random_num = random.randint(0, len(sidebar_articles)-3)
-        #     context["sidebar_articles"] = sidebar_articles[random_num:random_num+3]
-        # else: context["sidebar_articles"] = sidebar_articles
-        context["sidebar_articles"] = set(Articles.objects.filter(tags__in=context["article"].tags.all()).exclude(pk=context["article"].pk)[:5])
+        sidebar_articles = context["article"].category.category_elements.exclude(title=context["article"].title)
+        if len(sidebar_articles) > 5:
+            random_num = randint(0, len(sidebar_articles)-5)
+            context["sidebar_articles"] = sidebar_articles[random_num:random_num+5]
+        else: context["sidebar_articles"] = sidebar_articles
+        context["related_articles"] = set(Articles.objects.filter(tags__in=context["article"].tags.all()).exclude(pk=context["article"].pk)[:3])
         return context
 
 class TagListView(ListView):
