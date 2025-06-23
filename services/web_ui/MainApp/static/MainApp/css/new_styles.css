@@ -319,6 +319,95 @@
     cursor: pointer;
 }
 
+/* home page latest article part */
+.latest-articles-container {
+    padding: 30px 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+.latest-articles-container hr {
+    border-top: 1px solid #0a0908;
+    margin: 5px 0 30px 0;
+}
+.latest-article {
+    width: 100%;
+    position: relative;
+}
+.latest-article-last::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: inherit;
+    height: 200%; /* регулируй по нужной высоте затемнения */
+    background: linear-gradient(to top, rgb(255, 255, 255), rgba(0,0,0,0));
+    pointer-events: none; /* чтобы не мешал кликам */
+    z-index: 5;
+}
+.latest-article-wrapper {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    color: #0a0908;
+    text-decoration: none;
+}
+.latest-article-img {
+    flex: 1;
+}
+.latest-article-img img{
+    width: 100%;
+    transition: filter 0.3s ease;
+}
+.latest-article-img img:hover{
+    filter: brightness(75%);
+}
+.latest-article-text {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.latest-article-text h1{
+    margin-bottom: 10px;
+}
+.latest-article-text h1:hover{
+    text-decoration: underline 1px;
+}
+.latest-article-text h3{
+    font-weight: 400;
+}
+.latest-article-text span {
+    color: #686461;
+}
+.latest-more-button-div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.latest-more-button {
+    position: relative;
+    bottom: 40px;
+    display: flex;
+    gap: 80px;
+    align-self: flex-start;
+    padding: 10px 20px 10px 12px;
+    border: solid 1px #0a0908;
+    border-radius: 10px;
+    font-size: 18px;
+    transition: 0.3s ease;
+    text-decoration: none;
+    color: #0a0908;
+    z-index: 100;
+}
+.latest-more-button:hover {
+    background-color: #0a0908;
+    color: white;
+    cursor: pointer;
+    padding: 10px 12px;
+    gap: 88px;
+}
+
 /* article detail view */
 .article-main-container {
     display: flex;

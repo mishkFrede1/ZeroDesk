@@ -1,5 +1,4 @@
 from random import randint
-
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
@@ -25,6 +24,7 @@ class IndexView(ListView):
         context["articles"] = Articles.objects.exclude(category__name="Video Games")
         context["main_articles"] = context["articles"][:2]
         context["left_articles"] = context["articles"][2:6]
+        context["latest_articles"] = context["articles"][6:17]
         context["categories"] = Categories.objects.all()[:9]
         context["popular_tags"] = Tags.objects.annotate(article_count=Count('tag_elements')).order_by('-article_count')[:50]
         categories_with_articles = []
@@ -77,6 +77,19 @@ class TagListView(ListView):
         context = super().get_context_data(**kwargs)
         context.update(kwargs)
         context["tag"] = self.tag
+        return context
+
+class LatestListView(ListView):
+    template_name = "MainApp/latest.html"
+    context_object_name = "articles"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Articles.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(kwargs)
         return context
 
 class CategoryListView(ListView):

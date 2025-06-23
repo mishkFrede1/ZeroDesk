@@ -82,4 +82,27 @@
         </div>
     {% endfor %}
 </div>
+<div class="latest-articles-container">
+    <h2>LATEST</h2>
+    <hr>
+    {% for item in latest_articles %}
+        <div class="latest-article {% if forloop.last %}latest-article-last{% endif %}">
+            <a href="{{ item.get_absolute_url }}" class="latest-article-wrapper">
+                <div class="latest-article-img">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}"/>
+                </div>
+                <div class="latest-article-text">
+                    <div>
+                        <h1>{{ item.title }}</h1>
+                        <h3>{{ item.summary }}</h3>
+                    </div>
+                    <span>{{ item.created_at|custom_natural_time }}</span>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    <div class="latest-more-button-div">
+        <a class="latest-more-button" href="{% url 'latest_news' %}"><div>See more</div> ⟶</a>
+    </div>
+</div>
 {% endblock %}

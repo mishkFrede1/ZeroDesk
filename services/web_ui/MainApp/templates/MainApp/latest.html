@@ -1,0 +1,27 @@
+{% extends 'MainApp/new_base.html' %}
+{% load static %}
+{% load custom_naturaltime %}
+
+{% block content %}
+<div class="latest-articles-container">
+    <h2>LATEST</h2>
+    <hr>
+    {% for item in page_obj %}
+        <div class="latest-article">
+            <a href="{{ item.get_absolute_url }}" class="latest-article-wrapper">
+                <div class="latest-article-img">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}"/>
+                </div>
+                <div class="latest-article-text">
+                    <div>
+                        <h1>{{ item.title }}</h1>
+                        <h3>{{ item.summary }}</h3>
+                    </div>
+                    <span>{{ item.created_at|custom_natural_time }}</span>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    {% include 'MainApp/include/pagination.html' %}
+</div>
+{% endblock %}
