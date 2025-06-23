@@ -9,7 +9,6 @@ CATEGORIES = {
     "Science": 6,
     "Technology": 5,
     "Society": 4,
-    "Economy": 3,
     "Politics": 2
 }
 
@@ -33,7 +32,7 @@ SYSTEM_PROMPT_FOR_LLM = (
     "Include all direct quotes exactly as in the source, and preserve any numerical data (dates, percentages, figures) "
     
     "Use few images between paragraphs that best fit the topic of the article, "
-    "and use the same images as in html as the src. Choose one image as the title image and "
+    "and use the same images as in html as the src. Choose the first image as the title image and "
     "place it in title_image field in <img src='' alt=''/> format. "
     "If you use more than one image place other images in the same format but in html content. "
     "DO NOT USE IMAGES IN HTML IF THEY DON'T FIT THE MEANING OF THE ARTICLE, "
@@ -183,7 +182,7 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     "\n\n"
     "== IMAGE RULES ==\n"
     " - Identify all images in the original HTML.\n"
-    " - Choose ONE best image as the title_image.\n"
+    " - Choose FIRST image as the title_image.\n"
     " - Output it in: <img src=\"...\" alt=\"...\"/> — under the field 'title_image'.\n"
     " - DO NOT use the same image inside HTML content.\n"
     " - Use remaining relevant images in HTML between paragraphs.\n"
@@ -216,7 +215,13 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     '["Climate Change", "Fisheries", "Affordable Housing", "Rehabilitation", "Sustainability", "Gender Equality"]'
     "GOOD EXAMPLES:"
     '["USA", "Politics", "Health", "Economy", "Technology", "Environment", "Africa"]'
-
+    
+    'IF YOU CHOSE "Video Games" CATEGORY, DO NOT USE REAL LIFE RELATED TAGS LIKE: "Technology", "Science", "Economy", "Business", "Technologies" '
+    'Instead of this use tags:'
+    '1. Name of the Game in the article or name of the series of games: "Borderlands", "GTA 5", "GTA", "Minecraft", "Counter Strike", "Genshin Impact" and etc.'
+    '2. Use genre of the game: "FPS", "Battle royal", "Survival", "Indie" and etc.'
+    '3. You can use tags like: "GameDev", "AAA", "Ubisoft", "Rockstar games" and etc.'
+    '4. You also may use tags about gaming devices: "Playstation", "Xbox", "PC" and etc.'
 
     "\n\n"
     "== ADDITIONAL FIELDS ==\n"
