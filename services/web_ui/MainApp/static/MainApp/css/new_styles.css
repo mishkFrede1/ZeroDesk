@@ -135,6 +135,7 @@
     display: block;
     width: 100%;
     height: auto;
+    max-height: 530px;
     transition: filter 0.3s ease, transform 0.3s ease;
     border-radius: 10px;
 }
@@ -449,6 +450,7 @@
 }
 .article-content p {
     margin: 10px 0;
+    font-size: 18px;
 }
 .article-sidebar{
     flex: 1;
@@ -534,6 +536,16 @@
 .related-article-div img {
     width: 25%;
     border-radius: 0;
+    max-height: 110px;
+}
+.related-article-div div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.related-article-div span {
+    margin-bottom: 10px;
+    color: #595959;
 }
 
 /* category detail view */

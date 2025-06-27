@@ -22,7 +22,10 @@
                         {% for article in related_articles %}
                             <a href="{{ article.get_absolute_url }}" class="image-wrapper related-article-div">
                                 <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
-                                <h3>{{ article.title }}</h3>
+                                <div>
+                                    <h3>{{ article.title }}</h3>
+                                    <span>{{ article.created_at|custom_natural_time }}</span>
+                                </div>
                             </a>
                             {% if not forloop.last %}
                                 <hr style="border: none; border-top: 1px solid #ccc;">
