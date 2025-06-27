@@ -149,6 +149,7 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     "Your job is to analyze and rewrite the content in clear, informative, and visually structured form. "
     "You must extract the topic, write a catchy and clear title, identify a single article category, choose relevant tags, "
     "select one best image as the title image, and rewrite the article as structured HTML content with subheadings and images." 
+    "You should write article in total the same size with original article, you MAY write little less or more."
 
     "\n\n"
     "== HTML STRUCTURE ==\n"
@@ -169,6 +170,7 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
 
     "\n\n"
     "== SUBHEADINGS (use of <h2>) =="
+    "Base your count fo subheadings on the count of subheadings in original article."
     "Use <h2> only when the article clearly has large, distinct sections of content — like chapters."
     "Allowed if:"
     "- The article is a list: \"Top 10 Places\", \"7 Reasons\", \"25 Innovations\""
@@ -177,6 +179,7 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     "- Do not use <h2> for every paragraph or every quote."
     "- Do not add <h2> just to “decorate” — only when there's a real split in content."
     "- Do not use more than 3–5 subheadings unless it's a structured list."
+    "- Do not use one quotes in subheadings, only double quotes."
     "If it a small article you MAY use 1 or 2 subheadings."
 
     "\n\n"

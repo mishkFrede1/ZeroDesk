@@ -6,7 +6,7 @@ import time
 
 def run():
     try:
-        articles = parse_all_sources(2)
+        articles = parse_all_sources(0)
         length = len(articles)
         print(f"[MAIN_PARSER] Start sending: {length} articles")
         for article in articles:
