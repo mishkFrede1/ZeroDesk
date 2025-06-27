@@ -98,17 +98,19 @@ def send_to_webui(analyzed_article):
 def llm_analyze_article(raw_article: RawArticle):
     print("[ANALYZER] Process article...")
     response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_LLM_3, f"html: {raw_article.html}, category: {raw_article.category}")
-    print("[ANALYZER] Response content -", response.content)
-
-    raw = response.json()["choices"][0]["message"]["content"]
-    print("[ANALYZER] Done")
-    print("[ANALYZER] Raw\n", raw)
-    print("[ANALYZER] Raw type:", type(raw))
-    raw_dict = json.loads(raw)
-    raw_dict["html"] = raw_dict["html"].replace("\n", "")
-
-    print("[ANALYZER] Returned")
-    return raw_dict
+    try:
+        raw = response.json()["choices"][0]["message"]["content"]
+        print("[ANALYZER] Done")
+        print("[ANALYZER] Raw\n", raw)
+        print("[ANALYZER] Raw type:", type(raw))
+        raw_dict = json.loads(raw)
+        raw_dict["html"] += f"<p>Source: <a href=\"{raw_article.guid}\">Original Article</a></p>"
+        raw_dict["html"] = raw_dict["html"].replace("\n", "")
+        print("[ANALYZER] Returned")
+        return raw_dict
+    except Exception as e:
+        print("[ANALYZER][ERROR]", e)
+        print(response.json())
 
 # def send_to_tag_llm(title: str, tags: list):
 #     response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_TAG_LLM, f"Title of the article: {title}\nList of Tags: {' | '.join(tags)}")

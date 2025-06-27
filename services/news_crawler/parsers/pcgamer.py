@@ -10,14 +10,6 @@ bad_img_classes = ['aspect-[--img-listing-aspect-ratio,16/9]', 'hawk-lazy-image-
                    "object-cover", "w-[--article-river-thumbnail-width,100px]", "flex-shrink-0"]
 
 class PcgamerParser(RSSParser):
-    @staticmethod
-    def check_class(class_: list):
-        if type(class_) is not NoneType:
-            for c in class_:
-                if c in bad_img_classes:
-                    return True
-        return False
-
     def parse_article_html(self, soup: BeautifulSoup, guid: str):
         article_html = ""
 
@@ -31,11 +23,11 @@ class PcgamerParser(RSSParser):
                 article_html += f"<p>{element.get_text(strip=True)}</p>\n"
             if element.name == "h2":
                 article_html += f"<h2>{element.get_text(strip=True)}</h2>\n"
-            if element.name == "div" and self.check_class(element.get("class")):
+            if element.name == "div" and self.check_class(element.get("class"), bad_img_classes):
                 break
             if element.name == "img":
                 high_quality_src = self._get_max_quality_srcset(element)
-                if "youtube" in high_quality_src or self.check_class(element.get("class")):
+                if "youtube" in high_quality_src or self.check_class(element.get("class"), bad_img_classes):
                     continue
                 alt = element.get("alt", "")
                 if high_quality_src:

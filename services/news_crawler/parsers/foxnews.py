@@ -19,6 +19,8 @@ class FoxNewsParser(RSSParser):
                 article_html += f"<p>{element.get_text(strip=True)}</p>\n"
             if element.name == "img":
                 high_quality_src = self._get_max_quality_srcset(element)
+                if "default" in high_quality_src:
+                    continue
                 alt = element.get("alt", "")
                 if high_quality_src:
                     article_html += f'<img src="{high_quality_src}" alt="{alt}" />'

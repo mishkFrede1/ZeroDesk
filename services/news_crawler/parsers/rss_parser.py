@@ -1,5 +1,7 @@
 from datetime import datetime
 from random import randint
+from types import NoneType
+
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -15,7 +17,7 @@ class RSSParser:
         self.guid = guid
 
     def parse_all(self, articles_count: int):
-        print(f"[{self.sys_name} PARSER]: Started parsing {self.name}...")
+        print(f"[{self.sys_name} PARSER] Started parsing {self.name}...")
         articles = []
         for category in self.categories:
             articles += self._parse_category(category["url"], category["category"], articles_count, self.guid)
@@ -23,7 +25,7 @@ class RSSParser:
 
     def _parse_category(self, url: str, category: str, articles_count: int, guid: bool):
         feed = feedparser.parse(url)
-        print(f"[{self.sys_name} PARSER]: Start parsing", category)
+        print(f"[{self.sys_name} PARSER] Start parsing", category)
 
 
         articles = []
@@ -111,8 +113,15 @@ class RSSParser:
         parsed_article = self._parse_article(guid, category)
 
         formatted = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        source = self.sys_name.replace(' ', '_')
-        with open(f"parsers/debug_html/{source}_{category}_{formatted}.html", "w", encoding="utf-8") as f:
+        with open(f"parsers/debug_html/{self.sys_name}_{category}_{formatted}.html", "w", encoding="utf-8") as f:
             f.write(parsed_article["html"])
 
         return parsed_article
+
+    @staticmethod
+    def check_class(class_: list, bad_classes):
+        if type(class_) is not NoneType:
+            for c in class_:
+                if c in bad_classes:
+                    return True
+        return False

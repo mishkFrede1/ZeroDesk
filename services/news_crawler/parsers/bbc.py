@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 
 from config import BBC_CATEGORIES
+from parsers.rss_parser import RSSParser
 
 # def get_max_quality_image_url(img_tag):
 #     # 1. Получаем srcset
@@ -97,8 +98,6 @@ from config import BBC_CATEGORIES
 #     for category in BBC_CATEGORIES:
 #         articles += parse_bbc_news(category["url"], category["category"], articles_count)
 #     return articles
-
-from parsers.rss_parser import RSSParser
 
 class BBCParser(RSSParser):
     def parse_article_html(self, soup: BeautifulSoup, guid: str):
