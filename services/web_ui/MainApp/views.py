@@ -1,5 +1,5 @@
 from random import randint
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from rest_framework import viewsets
@@ -55,7 +55,14 @@ class ArticleDetailView(DetailView):
             random_num = randint(0, len(sidebar_articles)-5)
             context["sidebar_articles"] = sidebar_articles[random_num:random_num+5]
         else: context["sidebar_articles"] = sidebar_articles
-        context["related_articles"] = set(Articles.objects.filter(tags__in=context["article"].tags.all()).exclude(pk=context["article"].pk)[:3])
+
+        context["related_articles"] = (
+            Articles.objects
+            .exclude(pk=context["article"].pk)
+            .filter(tags__in=context["article"].tags.all())
+            .annotate(same_tags=Count('tags', filter=Q(tags__in=context["article"].tags.all())))
+            .order_by('-same_tags', '-created_at')[:3]
+        )
         return context
 
 class TagListView(ListView):
