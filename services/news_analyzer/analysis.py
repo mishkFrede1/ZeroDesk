@@ -12,10 +12,7 @@ dotenv = dotenv_values('.env')
 API_KEY = dotenv['OPEN_ROUTER_API_KEY']
 WEBUI_API = dotenv['WEBUI_API']
 WEBUI_API_TAGS =dotenv['WEBUI_API_TAGS']
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-TOKEN_DOTENV_PATH = BASE_DIR / ".env"
-TOKEN = dotenv_values(TOKEN_DOTENV_PATH)["neural_network_user_token"]
+TOKEN = dotenv["neural_network_user_token"]
 
 def slugify(s):
     s = s.lower().strip()
@@ -25,6 +22,7 @@ def slugify(s):
     return s
 
 def send_message_to_llm(system_prompt, content):
+    print("[ANALYZER] Sending article to llm.")
     return requests.post(
         url="https://openrouter.ai/api/v1/chat/completions",
         headers={

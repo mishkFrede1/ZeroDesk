@@ -157,6 +157,8 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     " - <h2> — for subheadings\n"
     " - <p> — for paragraphs\n"
     " - <img src=\"...\" alt=\"...\"/> — for images\n"
+    " - <h4>img alt</h4> - for img's alt under <img> tag\n"
+    " - <hr> - ONLY after <h4>alt</h4> tag\n"
     "DO NOT use any other tags. Use double quotes in attributes only.\n"
     "Output HTML must be inserted as plain string. DO NOT escape quotation marks."
 
@@ -191,6 +193,8 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     " - Use remaining relevant images in HTML between paragraphs.\n"
     " - Do NOT include promo, ads, or unrelated images.\n"
     " - DO NOT skip relevant images — use them all if appropriate."
+    " - After <img> tag you SHOULD put \"<h4>img's alt text</h4><hr>\""
+    "EXAMPLE: <img src=\"...\" alt=\"img's alt\" /><h4>img's alt</h4><hr>"
 
     "\n\n"
     "== CATEGORY ==\n"
@@ -253,7 +257,7 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     "  \"title_image\": \"<img src=\\\"https://example.com/image.jpg\\\" alt=\\\"City skyline\\\"/>\",\n"
     "  \"slug\": \"most-visited-cities-2025\",\n"
     "  \"summary\": \"Explore the top global cities that travelers chose most in 2025, from vibrant Tokyo to historic Rome.\",\n"
-    "  \"html\": \"<h2>1. Tokyo</h2><p>...</p><img src=\\\"...\\\" alt=\\\"...\\\"/><h2>2. Paris</h2><p>...</p>\",\n"
+    "  \"html\": \"<h2>1. Tokyo</h2><p>...</p><img src=\\\"...\\\" alt=\\\"...\\\"/><h4>img's alt</h4><hr><h2>2. Paris</h2><p>...</p>\",\n"
     "  \"category\": \"Travel\",\n"
     "  \"tags\": [\"Travel\", \"Cities\", \"Tourism\", \"Asia\", \"Europe\"]\n"
     "}"
