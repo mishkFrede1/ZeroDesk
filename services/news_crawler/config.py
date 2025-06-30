@@ -53,6 +53,13 @@ PCGAMER_CATEGORY = [
     }
 ]
 
+MENSHEALTH_CATEGORY = [
+    {
+        "url": "https://www.menshealth.com/rss/all.xml/",
+        "category": CATEGORIES["health"]
+    }
+]
+
 BBC_CATEGORIES = [
     {
         "url": "http://feeds.bbci.co.uk/news/rss.xml",

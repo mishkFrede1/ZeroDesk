@@ -10,13 +10,10 @@ bad_img_classes = ['aspect-[--img-listing-aspect-ratio,16/9]', 'hawk-lazy-image-
                    "object-cover", "w-[--article-river-thumbnail-width,100px]", "flex-shrink-0"]
 
 class PcgamerParser(RSSParser):
-    def parse_article_html(self, soup: BeautifulSoup, guid: str):
+    article_main_object_find_type = "class"
+    article_main_object_value = "content-wrapper"
+    def parse_article_html(self, article, guid: str):
         article_html = ""
-
-        article = soup.find(attrs={"class": "content-wrapper"})
-        if not article:
-            print("ERROR:", guid)
-            raise ValueError(f"Не удалось найти article-body")
 
         for element in article.descendants:
             if element.name == "p":

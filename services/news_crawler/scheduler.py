@@ -7,9 +7,9 @@ scheduler = BackgroundScheduler()
 def start_scheduler(function):
     scheduler.add_job(
         func=function,
-        trigger=IntervalTrigger(minutes=40),
+        trigger=IntervalTrigger(hours=2),
         id="cnn_parser_job",
-        name="Парсинг CNN каждый час",
+        name="Парсинг каждый час",
         replace_existing=True
     )
 
