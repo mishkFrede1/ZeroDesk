@@ -14,7 +14,8 @@
             <div class="article-content">
                 <p><strong>{{ article.summary }}</strong></p>
                 {{ article.content|safe }}
-
+                
+                {% if related_articles_count > 0 %}
                 <div class="related-articles">
                     <h2>ARTICLES LIKE THIS</h2>
                     <hr class="related-articles-outer-hr">
@@ -34,6 +35,7 @@
                     </div>
                     <hr class="related-articles-outer-hr">
                 </div>
+                {% endif %}
                 
                 <div class="article-tags">
                     <h2>TAGS</h2>

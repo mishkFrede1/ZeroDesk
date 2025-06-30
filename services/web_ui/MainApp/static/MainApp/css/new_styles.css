@@ -440,7 +440,15 @@
     width: 100%;
     height: auto;
     object-fit: cover;
-    margin: 15px 0;
+    margin-top: 15px;
+}
+.article-container h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 10px 0;
+}
+.article-container hr {
+    margin-bottom: 10px;
 }
 .article-content {
     display: flex;
@@ -537,6 +545,7 @@
     width: 25%;
     border-radius: 0;
     max-height: 110px;
+    margin: 15px 0;
 }
 .related-article-div div {
     display: flex;

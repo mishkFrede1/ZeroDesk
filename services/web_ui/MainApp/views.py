@@ -63,6 +63,7 @@ class ArticleDetailView(DetailView):
             .annotate(same_tags=Count('tags', filter=Q(tags__in=context["article"].tags.all())))
             .order_by('-same_tags', '-created_at')[:3]
         )
+        context["related_articles_count"] = len(context["related_articles"])
         return context
 
 class TagListView(ListView):
