@@ -15,6 +15,37 @@ CATEGORIES = {
     "none": "None",
 }
 
+CBSNEWS_CATEGORY = [
+    {
+        "url": "https://www.cbsnews.com/latest/rss/politics",
+        "category": CATEGORIES["politics"],
+    },
+    {
+        "url": "https://www.cbsnews.com/latest/rss/entertainment",
+        "category": CATEGORIES["entertainment"],
+    },
+    {
+        "url": "https://www.cbsnews.com/latest/rss/world",
+        "category": CATEGORIES["world"],
+    },
+    {
+        "url": "https://www.cbsnews.com/latest/rss/technology",
+        "category": CATEGORIES["technology"],
+    },
+    {
+        "url": "https://www.cbsnews.com/latest/rss/science",
+        "category": CATEGORIES["science"],
+    },
+    {
+        "url": "https://www.cbsnews.com/latest/rss/health",
+        "category": CATEGORIES["health"],
+    },
+    {
+        "url": "https://www.cbsnews.com/latest/rss/space",
+        "category": CATEGORIES["none"],
+    },
+]
+
 FOXNEWS_CATEGORIES = [
     {
         "url": "https://moxie.foxnews.com/google-publisher/world.xml",

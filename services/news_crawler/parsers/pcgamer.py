@@ -1,6 +1,3 @@
-from types import NoneType
-
-from bs4 import BeautifulSoup
 from config import PCGAMER_CATEGORY
 from parsers.rss_parser import RSSParser
 
@@ -10,33 +7,17 @@ bad_img_classes = ['aspect-[--img-listing-aspect-ratio,16/9]', 'hawk-lazy-image-
                    "object-cover", "w-[--article-river-thumbnail-width,100px]", "flex-shrink-0"]
 
 class PcgamerParser(RSSParser):
+    sys_name = "PCGAMER"
+    categories = PCGAMER_CATEGORY
+    guid = False
     article_main_object_find_type = "class"
     article_main_object_value = "content-wrapper"
-    def parse_article_html(self, article, guid: str):
-        article_html = ""
 
-        for element in article.descendants:
-            if element.name == "p":
-                article_html += f"<p>{element.get_text(strip=True)}</p>\n"
-            if element.name == "h2":
-                article_html += f"<h2>{element.get_text(strip=True)}</h2>\n"
-            if element.name == "div" and self.check_class(element.get("class"), bad_img_classes):
-                break
-            if element.name == "img":
-                high_quality_src = self._get_max_quality_srcset(element)
-                if "youtube" in high_quality_src or self.check_class(element.get("class"), bad_img_classes):
-                    continue
-                alt = element.get("alt", "")
-                if high_quality_src:
-                    article_html += f'<img src="{high_quality_src}" alt="{alt}" />'
-        return article_html
 
-def get_pcgamer_parser():
-    return PcgamerParser(
-        sys_name="PCGAMER",
-        categories=PCGAMER_CATEGORY,
-        guid=False
-    )
+    # def extra_validation_img(self, element, src):
+    #     if "youtube" not in src or not self.check_class(element.get("class"), bad_img_classes):
+    #         return True
+    #     return False
 
 
 # def parse_article(link, category):

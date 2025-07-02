@@ -10,7 +10,7 @@ def send_to_analyzer(article_data):
     try:
         response = requests.post(ANALYZER_API, json=article_data)
         response.raise_for_status()
-        logger.info(f"{response}")
+        logger.info(f"[MAIN PARSER] {response}")
         return True
 
     except Exception as e:
