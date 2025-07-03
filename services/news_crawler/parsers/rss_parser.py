@@ -25,6 +25,7 @@ class RSSParser:
 
     bad_blocks = None
     bad_url_patterns = []
+    bad_img_patterns = []
 
     # GENERAL PARSING
     def parse_all(self, articles_count: int):
@@ -142,13 +143,18 @@ class RSSParser:
     def img_high_quality_parsing(self, article_html, element):
         high_quality_src = self._get_max_quality_srcset(element)
         alt = element.get("alt", "")
-        if high_quality_src and self.extra_validation_img(element, high_quality_src):
+        if high_quality_src and not self._img_validation_src(high_quality_src) and self.extra_validation_img(element, high_quality_src):
             img_tag = f'<img src="{high_quality_src}" alt="{alt}">\n'
             article_html += img_tag
 
         return article_html
 
     # VALIDATION METHODS
+    def _img_validation_src(self, src):
+        for bad in self.bad_img_patterns:
+            if bad in src: return True
+        return False
+
     def _article_validation_url(self, url: str):
         for bad in self.bad_url_patterns:
             if bad in url: return True

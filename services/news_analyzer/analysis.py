@@ -9,7 +9,7 @@ from models import RawArticle
 import config
 
 dotenv = dotenv_values('.env')
-API_KEY = dotenv['OPEN_ROUTER_API_KEY']
+API_KEY = dotenv['OPEN_ROUTER_API_KEY_1']
 WEBUI_API = dotenv['WEBUI_API']
 WEBUI_API_TAGS =dotenv['WEBUI_API_TAGS']
 TOKEN = dotenv["neural_network_user_token"]
@@ -30,7 +30,7 @@ def send_message_to_llm(system_prompt, content):
             "Content-Type": "application/json",
         },
         data=json.dumps({
-            "model": "deepseek/deepseek-r1-0528:free",
+            "model": "deepseek/deepseek-chat-v3-0324:free", # deepseek/deepseek-r1-0528:free | deepseek/deepseek-chat-v3-0324:free
             "messages": [
                 {
                     "role": "system",

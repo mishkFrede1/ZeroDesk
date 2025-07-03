@@ -7,6 +7,7 @@ class FoxNewsParser(RSSParser):
     article_main_object_find_type = "class"
     article_main_object_value = "article-body"
     bad_blocks = [".author-byline", ".featured, .featured-video, .video-ct", ".video-container", ".collection, .collection-multi", ".slider-wrapper, .list-items", ".related-topics"]
+    bad_img_patterns = ["default"]
 
     @staticmethod
     def extra_validation_p(element):
@@ -15,6 +16,6 @@ class FoxNewsParser(RSSParser):
         return True
 
     def extra_validation_img(self, element, src):
-        if "default" in src or self.check_class(element.get("class"), ["m"]):
+        if self.check_class(element.get("class"), ["m"]):
             return False
         return True

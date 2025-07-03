@@ -15,6 +15,20 @@ CATEGORIES = {
     "none": "None",
 }
 
+ARTNEWS_CATEGORY = [
+    {
+        "url": "https://www.artnews.com/feed/",
+        "category": CATEGORIES["culture_and_art"],
+    }
+]
+
+BOOOOOOOM_CATEGORY = [
+    {
+        "url": "https://www.booooooom.com/feed/",
+        "category": CATEGORIES["culture_and_art"],
+    }
+]
+
 CBSNEWS_CATEGORY = [
     {
         "url": "https://www.cbsnews.com/latest/rss/politics",

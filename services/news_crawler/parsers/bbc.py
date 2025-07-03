@@ -8,6 +8,7 @@ class BBCParser(RSSParser):
     article_main_object_value = "article"
     bad_blocks = [".sc-464f550b-2, .iEUdAz"]
     bad_url_patterns = ["live-news", "videos", "iplayer", "sounds"]
+    bad_img_patterns = ["grey-placeholder"]
     guid = False
 
     @staticmethod
@@ -16,8 +17,8 @@ class BBCParser(RSSParser):
             return True
         return False
 
-    @staticmethod
-    def extra_validation_img(element, src):
-        if "grey-placeholder" not in src:
-            return True
-        return False
+    # @staticmethod
+    # def extra_validation_img(element, src):
+    #     if "grey-placeholder" not in src:
+    #         return True
+    #     return False

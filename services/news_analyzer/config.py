@@ -248,7 +248,8 @@ SYSTEM_PROMPT_FOR_LLM_3 = (
     " - tags: list of 3–6 general keywords\n"
 
     "Your response must start with '{' and end with '}', and contain ONLY JSON, nothing else.\n"
-    "DO NOT use backticks (`), triple quotes, or markdown formatting.\n"
+    "DO NOT USE backticks (`), triple quotes, or markdown formatting.\n"
+    "DO NOT NAME JSON! DON'T WRITE ANY NAMES BEFORE '{'"
 
     "\n\n"
     "== EXAMPLE ==\n"

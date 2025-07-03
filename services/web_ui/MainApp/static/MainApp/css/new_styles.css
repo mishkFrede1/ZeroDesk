@@ -293,6 +293,10 @@
     text-decoration: underline;
     cursor: pointer;
 }
+.article-wrapper img {
+    max-height: 310px;
+    object-fit: cover;
+}
 .category-news-container h4 {
     margin: 5px 0;
 }
@@ -359,6 +363,8 @@
 .latest-article-img img{
     width: 100%;
     transition: filter 0.3s ease;
+    max-height: 230px;
+    object-fit: cover;
 }
 .latest-article-img img:hover{
     filter: brightness(75%);
