@@ -1,18 +1,20 @@
+from types import NoneType
+from io import BytesIO
 import requests
 import json
 import re
-from pathlib import Path
-from io import BytesIO
-from dotenv import dotenv_values
+import os
+
 from models import RawArticle
-
 import config
+from logger import get_logger
 
-dotenv = dotenv_values('.env')
-API_KEY = dotenv['OPEN_ROUTER_API_KEY_1']
-WEBUI_API = dotenv['WEBUI_API']
-WEBUI_API_TAGS =dotenv['WEBUI_API_TAGS']
-TOKEN = dotenv["neural_network_user_token"]
+logger = get_logger()
+
+API_KEY = os.environ['OPEN_ROUTER_API_KEY_1']
+WEBUI_API = os.environ['WEBUI_API']
+WEBUI_API_TAGS = os.environ['WEBUI_API_TAGS']
+TOKEN = os.environ["neural_network_user_token"]
 
 def slugify(s):
     s = s.lower().strip()
@@ -22,7 +24,7 @@ def slugify(s):
     return s
 
 def send_message_to_llm(system_prompt, content):
-    print("[ANALYZER] Sending article to llm.")
+    logger.info("[ANALYZER] Sending article to llm")
     return requests.post(
         url="https://openrouter.ai/api/v1/chat/completions",
         headers={
@@ -30,7 +32,7 @@ def send_message_to_llm(system_prompt, content):
             "Content-Type": "application/json",
         },
         data=json.dumps({
-            "model": "deepseek/deepseek-chat-v3-0324:free", # deepseek/deepseek-r1-0528:free | deepseek/deepseek-chat-v3-0324:free
+            "model": "deepseek/deepseek-r1-0528:free", # deepseek/deepseek-r1-0528:free | deepseek/deepseek-chat-v3-0324:free
             "messages": [
                 {
                     "role": "system",
@@ -45,7 +47,10 @@ def send_message_to_llm(system_prompt, content):
     )
 
 def send_to_webui(analyzed_article):
-    print("[WEBUI SENDER] Start process new article ...")
+    logger.info("[WEBUI SENDER] Start process new article")
+    if analyzed_article in [NoneType, None]:
+        logger.error("[WEBUI SENDER][ERROR] title_image is null")
+        return None
     match = re.search(r"src=['\"](.*?)['\"]", analyzed_article["title_image"])
     if match:
         img_url = match.group(1)
@@ -70,8 +75,8 @@ def send_to_webui(analyzed_article):
                     if response.status_code == 201:
                         tags.append(response.json()["id"])
                     else:
-                        print(response.content)
-                        print("[WEBUI SENDER] [ERROR] Failed to create tag for article")
+                        logger.info(response.content)
+                        logger.error("[WEBUI SENDER] [ERROR] Failed to create tag for article")
 
             files = {
                 "image": image_bytes
@@ -84,40 +89,31 @@ def send_to_webui(analyzed_article):
                 "category": config.CATEGORIES[analyzed_article["category"]],
                 "tags": tags
             }
-            print("[WEBUI SENDER] Sending to web_ui ...")
+            logger.info("[WEBUI SENDER] Sending to web_ui")
             res = requests.post(WEBUI_API, data=data, files=files, headers=headers)
             if res.status_code == 201:
-                print("[WEBUI SENDER] Article sent -", res)
+                logger.info("[WEBUI SENDER] Article sent - {res}")
             else:
-                print("[WEBUI SENDER] Article sending failed -", res, res.content)
+                logger.error(f"[WEBUI SENDER] Article sending failed - {res} {res.content}")
     else:
-        print("[WEBUI SENDER][ERROR] Match is null")
+        logger.error("[WEBUI SENDER][ERROR] Match is null")
 
 def llm_analyze_article(raw_article: RawArticle):
-    print("[ANALYZER] Process article...")
-    response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_LLM_3, f"html: {raw_article.html}, category: {raw_article.category}")
+    logger.info("[ANALYZER] Processing article")
+    response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_LLM, f"html: {raw_article.html}, category: {raw_article.category}")
     try:
         raw = response.json()["choices"][0]["message"]["content"]
-        print("[ANALYZER] Done")
-        print("[ANALYZER] Raw\n", raw)
-        print("[ANALYZER] Raw type:", type(raw))
+        # logger.info("[ANALYZER] Done")
+        # logger.info("[ANALYZER] Raw\n", raw)
+        # logger.info("[ANALYZER] Raw type:", type(raw))
         raw_dict = json.loads(raw)
         raw_dict["html"] += f"<p>Source: <a href=\"{raw_article.guid}\">Original Article</a></p>"
         raw_dict["html"] = raw_dict["html"].replace("\n", "")
-        print("[ANALYZER] Returned")
+        logger.info("[ANALYZER] Returned")
         return raw_dict
     except Exception as e:
-        print("[ANALYZER][ERROR]", e)
-        print(response.json())
-
-# def send_to_tag_llm(title: str, tags: list):
-#     response = send_message_to_llm(config.SYSTEM_PROMPT_FOR_TAG_LLM, f"Title of the article: {title}\nList of Tags: {' | '.join(tags)}")
-#     raw = response.json()["choices"][0]["message"]["content"]
-#     print("[TAGS ANALYZER] Raw\n", raw)
-#     raw_dict = json.loads(raw)
-#     raw_dict["html"] = raw_dict["html"].replace("\n", "")
-#     print("[TAGS ANALYZER] Returned")
-#     return raw_dict
+        logger.error(f"[ANALYZER][ERROR] {e}")
+        logger.info(response.json())
 
 def process_article(raw_article: RawArticle):
     try:
