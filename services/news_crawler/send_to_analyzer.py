@@ -1,9 +1,9 @@
 import requests
-from dotenv import dotenv_values
+import os
 
 from logger import get_logger
 
-ANALYZER_API = dotenv_values('.env')["ANALYZER_API"]
+ANALYZER_API = os.environ["ANALYZER_API"]
 logger = get_logger()
 
 def send_to_analyzer(article_data):

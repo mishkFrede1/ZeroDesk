@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 from logger import get_logger
 from config import HEADERS
-from database import is_article_exists, save_article
+from article_store import save_article, is_article_exists
 
 logger = get_logger()
 

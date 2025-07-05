@@ -4,8 +4,10 @@ from logger import get_logger
 from parsers.main_parser import parse_all_sources
 from send_to_analyzer import send_to_analyzer
 from scheduler import start_scheduler
+from database import init_db
 
 logger = get_logger()
+init_db()
 
 def run():
     try:
