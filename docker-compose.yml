@@ -1,31 +1,61 @@
 services:
-  web_ui:
+  webui:
     build:
       context: ./services/web_ui
+      dockerfile: Dockerfile
+    container_name: web_ui
     ports:
       - "8000:8000"
-    env_file:
-      - ./services/web_ui/.env
     volumes:
-      - ./services/web_ui:/app
-    command: python manage.py runserver 0.0.0.0:8000
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
+  db:
+    image: postgres:15
+    container_name: web_ui_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   news_analyzer:
     build:
       context: ./services/news_analyzer
+      dockerfile: Dockerfile
+    container_name: news_analyzer
     ports:
-      - "8001:80"
-    env_file:
-      - ./services/news_analyzer/.env
+      - "80:80"
     volumes:
-      - ./services/news_analyzer:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 80
+      - .:/app
+    env_file:
+      - .env
+    restart: on-failure
 
   news_crawler:
     build:
       context: ./services/news_crawler
+      dockerfile: Dockerfile
+    container_name: news_crawler
+    depends_on:
+      db:
+          condition: service_healthy
     env_file:
-      - ./services/news_crawler/.env
+      - .env
+    restart: on-failure
     volumes:
-      - ./services/news_crawler:/app
-    command: python main.py
+      - .:/app
+
+volumes:
+  postgres_data:
