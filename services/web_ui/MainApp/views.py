@@ -115,11 +115,11 @@ class CategoryListView(ListView):
         context["category"] = get_object_or_404(Categories, slug=self.kwargs['category_slug'])
         return context
 
+# ------------------ API VIEWSETS ------------------ #
 class CategoriesListView(ListView):
     template_name = "MainApp/categories.html"
     context_object_name = "categories"
     queryset = Categories.objects.all()
-
 
 class ArticlesViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
