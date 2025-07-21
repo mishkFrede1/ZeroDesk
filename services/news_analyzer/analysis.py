@@ -1,15 +1,22 @@
+from pathlib import Path
 from types import NoneType
 from io import BytesIO
 import requests
 import json
 import re
 import os
+from dotenv import load_dotenv
 
 from models import RawArticle
 import config
 from logger import get_logger
 
 logger = get_logger()
+
+root = Path(__file__).resolve().parent.parent.parent
+load_dotenv(dotenv_path=root / ".env")
+if os.getenv("DOCKER") == "false":
+    load_dotenv(dotenv_path=root / ".env.local", override=True)
 
 API_KEY = os.environ['OPEN_ROUTER_API_KEY_1']
 WEBUI_API = os.environ['WEBUI_API']

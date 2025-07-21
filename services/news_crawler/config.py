@@ -15,6 +15,13 @@ CATEGORIES = {
     "none": "None",
 }
 
+IGN_CATEGORY = [
+    {
+        "url": "https://feeds.feedburner.com/ign/news",
+        "category": CATEGORIES["video_games"],
+    }
+]
+
 ARTNEWS_CATEGORY = [
     {
         "url": "https://www.artnews.com/feed/",

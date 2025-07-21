@@ -40,9 +40,16 @@
 #             # Уже существует — можно игнорировать или логировать
 #             pass
 
+from pathlib import Path
+from dotenv import load_dotenv
 from sqlalchemy import create_engine, Column, String, DateTime
 from sqlalchemy.orm import declarative_base, sessionmaker
 import os
+
+root = Path(__file__).resolve().parent.parent.parent
+load_dotenv(dotenv_path=root / ".env")
+if os.getenv("DOCKER") == "false":
+    load_dotenv(dotenv_path=root / ".env.local", override=True)
 
 DB_URL = os.getenv('POSTGRES_URL')
 

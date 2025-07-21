@@ -22,6 +22,7 @@ class RSSParser:
     title_image_separated = False
     title_image_object_class = None
     img_extra_split = False
+    images_from_content = False
 
     bad_blocks = None
     bad_url_patterns = []
@@ -42,27 +43,25 @@ class RSSParser:
 
         articles = []
         index = 0
-        if self.guid:
-            for entry in feed.entries:
-                # "live-news" in entry.guid or "videos" in entry.guid or "sounds" in entry.guid or "iplayer" in entry.guid
-                if is_article_exists(entry.guid) or self._article_validation_url(entry.guid):
-                    continue
-                parsed_article = self.parse_article_and_get_debug(entry.guid, category)
-                if parsed_article is not None: articles.append(parsed_article)
-                if index >= articles_count: break
-                index += 1
-        else:
-            for entry in feed.entries:
-                if is_article_exists(entry.link) or self._article_validation_url(entry.link):
-                    continue
-                parsed_article = self.parse_article_and_get_debug(entry.link, category)
-                if parsed_article is not None: articles.append(parsed_article)
-                if index >= articles_count: break
-                index += 1
+
+        for entry in feed.entries:
+            if self.guid:
+                url = entry.guid
+            else: url = entry.link
+            if is_article_exists(url) or self._article_validation_url(url):
+                continue
+            try:
+                parsed_article = self.parse_article_and_get_debug(url, category, entry.content[0]["value"])
+            except AttributeError:
+                parsed_article = self.parse_article_and_get_debug(url, category)
+
+            if parsed_article is not None: articles.append(parsed_article)
+            if index >= articles_count: break
+            index += 1
         return articles
 
     # ARTICLE'S HTML PARSING METHODS
-    def _parse_article(self, guid: str, category: str):
+    def _parse_article(self, guid: str, category: str, content = None):
         response = requests.get(guid, headers=HEADERS)
         soup = BeautifulSoup(response.content, "html.parser")
 
@@ -97,6 +96,9 @@ class RSSParser:
 
         article_html += self.parse_article_html(article)
 
+        if content:
+            article_html += self.get_img_from_content(content)
+
         if article_html is None:
             return None
 
@@ -128,8 +130,8 @@ class RSSParser:
 
         return article_html
 
-    def parse_article_and_get_debug(self, guid: str, category: str):
-        parsed_article = self._parse_article(guid, category)
+    def parse_article_and_get_debug(self, guid: str, category: str, content = None):
+        parsed_article = self._parse_article(guid, category, content)
         if parsed_article:
             formatted = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
             with open(f"parsers/debug_html/{self.sys_name}_{category}_{formatted}.html", "w", encoding="utf-8") as f:
@@ -244,3 +246,9 @@ class RSSParser:
             candidates.sort(reverse=True)  # по ширине
             return candidates[0][1]
         return img_tag.get("src")
+
+    @staticmethod
+    def get_img_from_content(string: str):
+        start = string.find('<img src="') + 10
+        end = string.find('" /><section>')
+        return f"<img src=\"{string[start:end]}\" alt=\"title img from rss content section\" />"
