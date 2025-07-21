@@ -10,7 +10,7 @@ from MainApp.models import *
 from MainApp.paginations import ArticlesPagination
 from MainApp.permissions import IsNeuralNetUser
 from MainApp.serializers import ArticleSerializer, CategoriesSerializer, TagsSerializer
-
+from MainApp.utils import sort_values_list
 
 class IndexView(ListView):
     template_name = "MainApp/home.html"
@@ -115,6 +115,45 @@ class CategoryListView(ListView):
         context["category"] = get_object_or_404(Categories, slug=self.kwargs['category_slug'])
         return context
 
+class SearchView(ListView):
+    model = Articles
+    template_name = "MainApp/search.html"
+    context_object_name = "search_results"
+    paginate_by = 10
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        sort = self.request.GET.get('sort-by')
+        if query:
+            result = Articles.objects.filter(title__icontains=query) | Articles.objects.filter(content__icontains=query)
+        else: result = Articles.objects.all()
+
+        if sort or sort != '' and sort is not None:
+            result = result.order_by(sort)
+
+        return result
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(kwargs)
+        context["search_value"] = f"search={self.request.GET.get('search')}&"
+
+        sort_value = self.request.GET.get('sort-by')
+        if sort_value == 'None' or not sort_value:
+            sort_value = ''
+        context["sort_value"] = f"sort-by={sort_value}&"
+
+        sort_values = []
+        for value in sort_values_list:
+            if value["value"] == sort_value:
+                value["selected"] = "selected"
+            else: value["selected"] = ""
+            sort_values.append(value)
+        context["sort_values_list"] = sort_values
+
+        context["input_value"] = self.request.GET.get('search')
+        return context
+
 # ------------------ API VIEWSETS ------------------ #
 class CategoriesListView(ListView):
     template_name = "MainApp/categories.html"
@@ -139,5 +178,3 @@ class TagsViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
     pagination_class = None
     permission_classes = [IsAuthenticated, IsNeuralNetUser]
-
-

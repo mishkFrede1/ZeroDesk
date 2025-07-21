@@ -15,9 +15,14 @@
 
 <div class="header-wrapper">
     <div class="header">
-        <div class="header-left"><a>Menu</a></div>
+        <div class="header-left"></div>
         <div class="header-center"><strong><a href="{% url 'home' %}">ZERO DESK</a></strong></div>
-        <div class="header-right"><a href="#">Contact</a></div>
+        <div class="header-right">
+            <form action="{% url 'search' %}" method="GET" class="group">
+                <button type="submit" class="search-submit"><img src="{% static 'MainApp/img/glass.png' %}"></button>
+                <input type="search" class="search-input" name="search" value="{% if input_value %}{{ input_value }}{% endif %}">
+            </form>
+        </div>
     </div>
     <div class="header-line"></div>
 </div>

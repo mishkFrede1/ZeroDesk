@@ -19,33 +19,40 @@
     z-index: 1000;
 }
 
+/*.header {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    padding: 12px 50px;*/
+/*    font-size: 20px;*/
+/*    position: relative;*/
+/*    transition: height 0.3s ease, padding 0.3s ease;*/
+/*}*/
 .header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px;
-    font-size: 20px;
-    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 12px 50px;
+    gap: 60px;
     transition: height 0.3s ease, padding 0.3s ease;
 }
 .header.shrink {
     box-shadow: 0 1px 5px rgba(0,0,0,0.5);
-    padding: 6px 20px;
+    padding: 6px 50px;
 }
-
 .header a{
     text-decoration: none;
     cursor: pointer;
     color: #1b263b;
     font-weight: bold;
 }
-
 .header-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    flex: 3;
     font-size: 26px;
     user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .header-center strong a {
     transition: 0.3s ease;
@@ -53,7 +60,10 @@
 .header-center:hover strong a{
     color: #324357;
 }
-
+.header-left, .header-right {
+    flex: 1;
+    display: flex;
+}
 .header-line {
     height: 2px;
     background-color: #0a0908;
@@ -61,6 +71,63 @@
 }
 .header-line.shrink-line {
     height: 0;
+}
+.group {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+    border-bottom: 1px solid #595959;
+}
+.search-submit {
+    background: transparent;
+    border: none;
+}
+.search-submit img {
+    width: 20px;
+    height: 20px;
+    transition: 0.3s ease;
+}
+.search-submit img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.search-input {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    outline: none;
+    border: none;
+}
+.search-input:focus, .search-input:hover {
+    outline: none;
+}
+.sort-menu-form {
+    display: flex;
+    gap: 10px;
+    margin: 8px 0 2px 0;
+}
+.sort-menu-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-color: #fff;
+    color: #333;
+    padding: 0 1em 0 0;
+    font-size: 1.05rem;
+    border: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.05em center;
+    background-size: 1em;
+
+    outline: none;
+    box-shadow: none;
+}
+.sort-menu-submit {
+
 }
 
 /* ------------------ main part ------------------ */

@@ -4,6 +4,11 @@ nav = [
     {"title": "Статьи", "url": "home"},
     {"title": "Категории", "url": "home"},
 ]
+sort_values_list = [
+    {"name": "None", "value": "", "selected": ""},
+    {"name": "Date", "value": "-created_at", "selected": ""},
+    {"name": "Title", "value": "title", "selected": ""},
+]
 
 # class DataMixin:
 #     page_title = None

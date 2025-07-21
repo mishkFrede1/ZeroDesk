@@ -13,7 +13,7 @@
             <h2>NEWS</h2>
             {% for article in left_articles %}
                 <div class="left-article">
-                    <a href="{{article.get_absolute_url}}" class="image-wrapper">
+                    <a href="{{ article.get_absolute_url }}" class="image-wrapper">
                         <img style="border-radius:5px;" src="{{article.image.url}}" alt="{{article.title}}"/>
                         <h2>{{ article.title }}</h2>
                         <span class="left-article-date">{{ article.created_at|custom_natural_time }}</span>

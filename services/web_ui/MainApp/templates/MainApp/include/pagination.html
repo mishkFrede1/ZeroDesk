@@ -1,10 +1,10 @@
 {% if page_obj.paginator.num_pages > 1 %}
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button"><</a>
+            <a href="?{{ search_value }}{{ sort_value }}page={{ page_obj.previous_page_number }}" class="pagination-button"><</a>
         {% endif %}
         {% if page_obj.number|add:-2 > 1 %}
-            <a href="?page=1" class="pagination-button">1</a>
+            <a href="?{{ search_value }}{{ sort_value }}page=1" class="pagination-button">1</a>
             <a href="" class="points">...</a>
         {% endif %}
     
@@ -12,16 +12,16 @@
             {% if page_obj.number == p%}
                 <a href="" class="pagination-button-active">{{ p }}</a>
             {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
-                <a href="?page={{ p }}" class="pagination-button">{{ p }}</a>
+                <a href="?{{ search_value }}{{ sort_value }}page={{ p }}" class="pagination-button">{{ p }}</a>
             {% endif %}
         {% endfor %}
 
         {% if page_obj.number|add:2 < page_obj.paginator.num_pages %}
             <a href="" class="points">...</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-button">{{ page_obj.paginator.num_pages }}</a>
+            <a href="?{{ search_value }}{{ sort_value }}page={{ page_obj.paginator.num_pages }}" class="pagination-button">{{ page_obj.paginator.num_pages }}</a>
         {% endif %}
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">></a>
+            <a href="?{{ search_value }}{{ sort_value }}page={{ page_obj.next_page_number }}" class="pagination-button">></a>
         {% endif %}
     </div>
 {% endif %}
