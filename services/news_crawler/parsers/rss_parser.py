@@ -48,10 +48,7 @@ class RSSParser:
             else: url = entry.link
             if is_article_exists(url) or self._article_validation_url(url):
                 continue
-            try:
-                parsed_article = self.parse_article_and_get_debug(url, category, entry.content[0]["value"], save_in_db)
-            except AttributeError:
-                parsed_article = self.parse_article_and_get_debug(url, category, save_in_db)
+            parsed_article = self.parse_article_and_get_debug(url, category, save_in_db)
 
             if parsed_article is not None: articles.append(parsed_article)
             if index >= articles_count: break
@@ -59,7 +56,7 @@ class RSSParser:
         return articles
 
     # ARTICLE'S HTML PARSING METHODS
-    def _parse_article(self, guid: str, category: str, content = None, save_in_db = True):
+    def _parse_article(self, guid: str, category: str, save_in_db = True):
         response = requests.get(guid, headers=HEADERS)
         soup = BeautifulSoup(response.content, "html.parser")
 
@@ -94,9 +91,6 @@ class RSSParser:
 
         article_html += self.parse_article_html(article)
 
-        if content:
-            article_html += self.get_img_from_content(content)
-
         if article_html is None:
             return None
 
@@ -130,8 +124,8 @@ class RSSParser:
 
         return article_html
 
-    def parse_article_and_get_debug(self, guid: str, category: str, content = None, save_in_db = True):
-        parsed_article = self._parse_article(guid, category, content, save_in_db)
+    def parse_article_and_get_debug(self, guid: str, category: str, save_in_db = True):
+        parsed_article = self._parse_article(guid, category, save_in_db)
         if parsed_article:
             formatted = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
             with open(f"parsers/debug_html/{self.sys_name}_{category}_{formatted}.html", "w", encoding="utf-8") as f:
@@ -244,8 +238,8 @@ class RSSParser:
             return candidates[0][1]
         return img_tag.get("src")
 
-    @staticmethod
-    def get_img_from_content(string: str):
-        start = string.find('<img src="') + 10
-        end = string.find('" /><section>')
-        return f"<img src=\"{string[start:end]}\" alt=\"title img from rss content section\" />"
+    # @staticmethod
+    # def get_img_from_content(string: str):
+    #     start = string.find('<img src="') + 10
+    #     end = string.find('" /><section>')
+    #     return f"<img src=\"{string[start:end]}\" alt=\"title img from rss content section\" />"

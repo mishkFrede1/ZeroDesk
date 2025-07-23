@@ -10,7 +10,7 @@ logger = get_logger()
 init_db()
 
 def run():
-    try:
+    # try:
         articles = parse_all_sources(0)
         length = len(articles)
         logger.info(f"[MAIN PARSER] Start sending: {length} articles")
@@ -23,8 +23,8 @@ def run():
             time.sleep(1)
         logger.info(f"[MAIN PARSER] Parsed and sent: {length} articles")
 
-    except Exception as e:
-        logger.error(e)
+    # except Exception as e:
+    #     logger.error(e)
 
 
 if __name__ == "__main__":

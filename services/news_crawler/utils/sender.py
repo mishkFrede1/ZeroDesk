@@ -1,9 +1,8 @@
 import requests
 import os
+from utils.logger import get_logger
 
-from logger import get_logger
-
-ANALYZER_API = os.environ["ANALYZER_API"]
+ANALYZER_API = os.getenv('ANALYZER_API')
 logger = get_logger()
 
 def send_to_analyzer(article_data):
