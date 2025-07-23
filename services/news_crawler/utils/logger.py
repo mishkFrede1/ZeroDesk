@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import logging
 import os
 
-root = Path(__file__).resolve().parent.parent.parent
+root = Path(__file__).resolve().parent.parent.parent.parent
 load_dotenv(dotenv_path=root / ".env")
 if os.getenv("DOCKER") == "false":
     load_dotenv(dotenv_path=root / ".env.local", override=True)

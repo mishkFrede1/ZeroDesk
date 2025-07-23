@@ -1,5 +1,5 @@
 from sqlalchemy.exc import IntegrityError
-from database import SessionLocal, ParsedArticle
+from database.db import SessionLocal, ParsedArticle
 from datetime import datetime
 
 def is_article_exists(url: str) -> bool:
