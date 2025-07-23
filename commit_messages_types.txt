@@ -1,0 +1,11 @@
+FEATURE - a new features is introudced with the changes
+
+FIX - a bug fix has occurred
+
+CHORE - changes that do not relate to a fix or feature and don't modify src or test files (for example updating dependencies)
+
+REFACTOR - refactored code that neither fixes a bug nor adds a feature 
+
+DOCS - updates to documentation such as a the README or other markdown files
+
+TEST - including new or correcting previous tests
