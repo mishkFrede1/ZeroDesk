@@ -3,7 +3,7 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup
 
-from database import is_article_exists, save_article
+from database.db import is_article_exists, save_article
 from config import CNN_CATEGORIES
 
 

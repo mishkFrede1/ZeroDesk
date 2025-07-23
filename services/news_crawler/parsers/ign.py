@@ -1,6 +1,7 @@
 from parsers.rss_parser import RSSParser
 from config import IGN_CATEGORY
 
+
 class IGNParser(RSSParser):
     sys_name = "IGN"
     categories = IGN_CATEGORY

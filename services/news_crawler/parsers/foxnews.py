@@ -1,6 +1,7 @@
 from config import FOXNEWS_CATEGORIES
 from parsers.rss_parser import RSSParser
 
+
 class FoxNewsParser(RSSParser):
     sys_name = "FOX NEWS"
     categories = FOXNEWS_CATEGORIES

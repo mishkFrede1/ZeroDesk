@@ -1,15 +1,15 @@
 from datetime import datetime
-from random import randint
 from types import NoneType
 import feedparser
 import requests
 from bs4 import BeautifulSoup
 
-from logger import get_logger
+from utils.logger import get_logger
 from config import HEADERS
-from article_store import save_article, is_article_exists
+from database.article_store import save_article, is_article_exists
 
 logger = get_logger()
+
 
 class RSSParser:
     sys_name = "RSSParserDefaultName"
@@ -29,21 +29,19 @@ class RSSParser:
     bad_img_patterns = []
 
     # GENERAL PARSING
-    def parse_all(self, articles_count: int):
+    def parse_all(self, articles_count: int, save_in_db = True):
         logger.info(f"[{self.sys_name} PARSER] Started parsing {self.sys_name.lower()}...")
         articles = []
         for category in self.categories:
-            articles += self._parse_category(category["url"], category["category"], articles_count, self.guid)
+            articles += self._parse_category(category["url"], category["category"], articles_count, save_in_db)
         return articles
 
-    def _parse_category(self, url: str, category: str, articles_count: int, guid: bool):
+    def _parse_category(self, url: str, category: str, articles_count: int, save_in_db = True):
         feed = feedparser.parse(url)
         logger.info(f"[{self.sys_name} PARSER] Start parsing {category}")
 
-
         articles = []
         index = 0
-
         for entry in feed.entries:
             if self.guid:
                 url = entry.guid
@@ -51,9 +49,9 @@ class RSSParser:
             if is_article_exists(url) or self._article_validation_url(url):
                 continue
             try:
-                parsed_article = self.parse_article_and_get_debug(url, category, entry.content[0]["value"])
+                parsed_article = self.parse_article_and_get_debug(url, category, entry.content[0]["value"], save_in_db)
             except AttributeError:
-                parsed_article = self.parse_article_and_get_debug(url, category)
+                parsed_article = self.parse_article_and_get_debug(url, category, save_in_db)
 
             if parsed_article is not None: articles.append(parsed_article)
             if index >= articles_count: break
@@ -61,7 +59,7 @@ class RSSParser:
         return articles
 
     # ARTICLE'S HTML PARSING METHODS
-    def _parse_article(self, guid: str, category: str, content = None):
+    def _parse_article(self, guid: str, category: str, content = None, save_in_db = True):
         response = requests.get(guid, headers=HEADERS)
         soup = BeautifulSoup(response.content, "html.parser")
 
@@ -102,7 +100,9 @@ class RSSParser:
         if article_html is None:
             return None
 
-        save_article(guid, title, datetime.now())
+        if save_in_db:
+            save_article(guid, title, datetime.now())
+
         html = article_html.strip()
         return {
             "guid": guid,
@@ -130,8 +130,8 @@ class RSSParser:
 
         return article_html
 
-    def parse_article_and_get_debug(self, guid: str, category: str, content = None):
-        parsed_article = self._parse_article(guid, category, content)
+    def parse_article_and_get_debug(self, guid: str, category: str, content = None, save_in_db = True):
+        parsed_article = self._parse_article(guid, category, content, save_in_db)
         if parsed_article:
             formatted = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
             with open(f"parsers/debug_html/{self.sys_name}_{category}_{formatted}.html", "w", encoding="utf-8") as f:
@@ -216,12 +216,10 @@ class RSSParser:
         return article
 
     def _get_max_quality_srcset(self, img_tag):
-        # 1. Получаем srcset
         srcset = img_tag.get("srcset")
         if not srcset:
             return img_tag.get("src")  # fallback
 
-        # 2. Парсим все варианты
         candidates = []
         if self.img_extra_split:
             items = []
@@ -241,7 +239,6 @@ class RSSParser:
                 except ValueError:
                     continue
 
-        # 3. Берем URL с максимальной шириной
         if candidates:
             candidates.sort(reverse=True)  # по ширине
             return candidates[0][1]

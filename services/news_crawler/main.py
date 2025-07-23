@@ -1,10 +1,10 @@
 import time
 
-from logger import get_logger
+from utils.logger import get_logger
 from parsers.main_parser import parse_all_sources
-from send_to_analyzer import send_to_analyzer
-from scheduler import start_scheduler
-from database import init_db
+from utils.sender import send_to_analyzer
+from utils.scheduler import start_scheduler
+from database.db import init_db
 
 logger = get_logger()
 init_db()
