@@ -23,12 +23,14 @@ WEBUI_API = os.environ['WEBUI_API']
 WEBUI_API_TAGS = os.environ['WEBUI_API_TAGS']
 TOKEN = os.environ["neural_network_user_token"]
 
+
 def slugify(s):
     s = s.lower().strip()
     s = re.sub(r'[^\w\s-]', '', s)
     s = re.sub(r'[\s_-]+', '-', s)
     s = re.sub(r'^-+|-+$', '', s)
     return s
+
 
 def send_message_to_llm(system_prompt, content):
     logger.info("[ANALYZER] Sending article to llm")
@@ -52,6 +54,7 @@ def send_message_to_llm(system_prompt, content):
             ],
         })
     )
+
 
 def send_to_webui(analyzed_article):
     logger.info("[WEBUI SENDER] Start process new article")
@@ -99,11 +102,14 @@ def send_to_webui(analyzed_article):
             logger.info("[WEBUI SENDER] Sending to web_ui")
             res = requests.post(WEBUI_API, data=data, files=files, headers=headers)
             if res.status_code == 201:
-                logger.info("[WEBUI SENDER] Article sent - {res}")
+                logger.info(f"[WEBUI SENDER] Article sent - {res}")
+                return res
             else:
                 logger.error(f"[WEBUI SENDER] Article sending failed - {res} {res.content}")
+                return res
     else:
         logger.error("[WEBUI SENDER][ERROR] Match is null")
+
 
 def llm_analyze_article(raw_article: RawArticle):
     logger.info("[ANALYZER] Processing article")
@@ -121,6 +127,7 @@ def llm_analyze_article(raw_article: RawArticle):
     except Exception as e:
         logger.error(f"[ANALYZER][ERROR] {e}")
         logger.info(response.json())
+
 
 def process_article(raw_article: RawArticle):
     try:
