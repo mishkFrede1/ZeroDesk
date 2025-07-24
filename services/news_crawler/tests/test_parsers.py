@@ -1,4 +1,5 @@
 from parsers import bbc, foxnews, booooooom, menshealth, artnews
+from parsers.main_parser import parse_all_sources
 
 def general_parsers_assert(articles_list):
     assert isinstance(articles_list, list)
@@ -10,19 +11,21 @@ def general_parsers_assert(articles_list):
         assert 'category' in article
         assert 'source' in article
 
-def test_bbc_parser_returns():
+def test_bbc_parser():
     general_parsers_assert(bbc.BBCParser().parse_all(0, False))
 
-def test_foxnews_parser_returns():
+def test_foxnews_parser():
     general_parsers_assert(foxnews.FoxNewsParser().parse_all(0, False))
 
-def test_menshealth_parser_returns():
+def test_menshealth_parser():
     general_parsers_assert(menshealth.MenshealthParser().parse_all(0, False))
 
-def test_booooooom_parser_returns():
+def test_booooooom_parser():
     general_parsers_assert(booooooom.BooooooomParser().parse_all(0, False))
 
-def test_artnews_parser_returns():
+def test_artnews_parser():
     general_parsers_assert(artnews.ArtNewsParser().parse_all(0, False))
 
+def test_parse_all_sources():
+    general_parsers_assert(parse_all_sources(0, False))
 
