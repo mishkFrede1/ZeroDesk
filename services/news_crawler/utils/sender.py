@@ -10,8 +10,8 @@ def send_to_analyzer(article_data):
         response = requests.post(ANALYZER_API, json=article_data)
         response.raise_for_status()
         logger.info(f"[MAIN PARSER] {response}")
-        return True
+        return True, response
 
     except Exception as e:
-        print("[ERROR]:", e)
-        return False
+        logger.error(f"[ERROR]: {e}")
+        return False, e

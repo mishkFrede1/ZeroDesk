@@ -7,11 +7,11 @@ from parsers.booooooom import BooooooomParser
 
 
 logger = get_logger()
-def parse_all_sources(articles_count: int):
+def parse_all_sources(articles_count: int, save_in_db=True):
     logger.info("[MAIN PARSER] Started parsing...")
     articles = []
     parsers = [BBCParser, FoxNewsParser, MenshealthParser, BooooooomParser, ArtNewsParser]
     for parser in parsers:
-        articles += parser().parse_all(articles_count)
+        articles += parser().parse_all(articles_count, save_in_db)
     return articles
 
