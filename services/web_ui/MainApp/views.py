@@ -1,10 +1,11 @@
 from random import randint
 from django.db.models import Count, Q
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 from django.views.generic import ListView, DetailView
+from django.core.cache import cache
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 
 from MainApp.models import *
 from MainApp.paginations import ArticlesPagination
@@ -44,8 +45,28 @@ class ArticleDetailView(DetailView):
     context_object_name = "article"
     slug_url_kwarg = "slug"
 
+    @staticmethod
+    def get_article_ttl(article):
+        age = (timezone.now() - article.created_at).total_seconds()
+        if age < 3600:             # < 1 hour:
+            return 60 * 5          # 5 minutes
+
+        elif age < 86400:          # < 1 day
+            return 60 * 30         # 30 minutes
+
+        elif age < 7 * 86400:      # < 1 week:
+            return 60 * 60 * 6     # 6 hours
+
+        else:                      # older:
+            return 60 * 60 * 24    # 24 hours
+
     def get_object(self, **kwargs):
-        return get_object_or_404(Articles.objects, slug=self.kwargs['slug'])
+        cached_article = cache.get(f"zerodesk_article:{self.kwargs['slug']}")
+        if cached_article is None:
+            article = get_object_or_404(Articles.objects, slug=self.kwargs['slug'])
+            cache.set(f"zerodesk_article:{self.kwargs['slug']}", article, timeout=self.get_article_ttl(article))
+            return article
+        return cached_article
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,15 +77,22 @@ class ArticleDetailView(DetailView):
             context["sidebar_articles"] = sidebar_articles[random_num:random_num+5]
         else: context["sidebar_articles"] = sidebar_articles
 
-        context["related_articles"] = (
-            Articles.objects
-            .exclude(pk=context["article"].pk)
-            .filter(tags__in=context["article"].tags.all())
-            .annotate(same_tags=Count('tags', filter=Q(tags__in=context["article"].tags.all())))
-            .order_by('-same_tags', '-created_at')[:3]
-        )
+        related_articles_cached = cache.get(f"zerodesk_article_related:{self.kwargs['slug']}")
+        if related_articles_cached is None:
+            context["related_articles"] = (
+                Articles.objects
+                .exclude(pk=context["article"].pk)
+                .filter(tags__in=context["article"].tags.all())
+                .annotate(same_tags=Count('tags', filter=Q(tags__in=context["article"].tags.all())))
+                .order_by('-same_tags', '-created_at')[:3]
+            )
+            cache.set(f"zerodesk_article_related:{self.kwargs['slug']}", context["related_articles"], timeout=60*60)
+        else:
+            context["related_articles"] = related_articles_cached
+
         context["related_articles_count"] = len(context["related_articles"])
         return context
+
 
 class TagListView(ListView):
     template_name = "MainApp/tag.html"
@@ -74,18 +102,31 @@ class TagListView(ListView):
     tag = None
 
     def set_tag(self):
-        self.tag = get_object_or_404(Tags.objects, slug=self.kwargs['tag_slug'])
+        cached_tag = cache.get(f"zerodesk_tag:{self.kwargs['tag_slug']}")
+        if cached_tag is None:
+            self.tag = get_object_or_404(Tags.objects, slug=self.kwargs['tag_slug'])
+            cache.set(f"zerodesk_tag:{self.kwargs['tag_slug']}", self.tag, timeout=60*60)
+        else:
+            self.tag = cached_tag
+
         return self.tag
 
     def get_queryset(self):
         tag = self.set_tag()
-        return Articles.objects.filter(tags__in=[tag])
+        cached_articles = cache.get(f"zerodesk_tag_articles:{self.kwargs['tag_slug']}")
+        if cached_articles is None:
+            articles = Articles.objects.filter(tags__in=[tag])
+            cache.set(f"zerodesk_tag_articles:{self.kwargs['tag_slug']}", articles, timeout=60*10)
+            return articles
+        else:
+            return cached_articles
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(kwargs)
         context["tag"] = self.tag
         return context
+
 
 class LatestListView(ListView):
     template_name = "MainApp/latest.html"
@@ -100,6 +141,7 @@ class LatestListView(ListView):
         context.update(kwargs)
         return context
 
+
 class CategoryListView(ListView):
     template_name = "MainApp/category.html"
     context_object_name = "articles"
@@ -107,7 +149,13 @@ class CategoryListView(ListView):
 
     def get_queryset(self):
         category = get_object_or_404(Categories, slug=self.kwargs['category_slug'])
-        return category.category_elements.select_related('category')
+        cached_category_elements = cache.get(f"zerodesk_category_elements:{self.kwargs['category_slug']}")
+        if cached_category_elements is None:
+            category_elements = category.category_elements.select_related('category')
+            cache.set(f"zerodesk_category_elements:{self.kwargs['category_slug']}", category_elements, timeout=60*10)
+            return category_elements
+        else:
+            return cached_category_elements
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
