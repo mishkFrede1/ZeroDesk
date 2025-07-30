@@ -6,7 +6,7 @@ class FoxNewsParser(RSSParser):
     sys_name = "FOX NEWS"
     categories = FOXNEWS_CATEGORIES
     article_main_object_find_type = "class"
-    article_main_object_value = "article-body"
+    article_main_object = "article-body"
     bad_blocks = [".author-byline", ".featured, .featured-video, .video-ct", ".video-container", ".collection, .collection-multi", ".slider-wrapper, .list-items", ".related-topics", ".video-container"]
     bad_img_patterns = ["default"]
 

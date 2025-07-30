@@ -15,6 +15,13 @@ CATEGORIES = {
     "none": "None",
 }
 
+RIANEWS_CATEGORIES = [
+    {
+        "url": "https://ria.ru/export/rss2/archive/index.xml",
+        "category": CATEGORIES["none"],
+    }
+]
+
 BOOOOOOOM_CATEGORY = [
     {
         "url": "https://www.booooooom.com/feed/",

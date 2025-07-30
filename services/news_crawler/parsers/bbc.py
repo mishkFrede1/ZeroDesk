@@ -5,7 +5,7 @@ from parsers.rss_parser import RSSParser
 class BBCParser(RSSParser):
     sys_name = "BBC"
     categories = BBC_CATEGORIES
-    article_main_object_value = "article"
+    article_main_object = "article"
     bad_blocks = [".sc-464f550b-2, .iEUdAz"]
     bad_url_patterns = ["live-news", "videos", "iplayer", "sounds"]
     bad_img_patterns = ["grey-placeholder"]
