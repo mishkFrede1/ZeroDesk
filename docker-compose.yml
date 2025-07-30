@@ -13,6 +13,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis_cache:
+        condition: service_healthy
     restart: on-failure
 
   db:
@@ -26,6 +28,19 @@ services:
       - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      
+  redis_cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -50,7 +65,7 @@ services:
     container_name: news_crawler
     depends_on:
       db:
-          condition: service_healthy
+        condition: service_healthy
     env_file:
       - .env
     restart: on-failure
@@ -59,3 +74,5 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:
+    driver: local
