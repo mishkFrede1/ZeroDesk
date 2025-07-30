@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.core.cache import cache
 
 
 class Articles(models.Model):
@@ -21,6 +22,10 @@ class Articles(models.Model):
 
     def get_absolute_url(self):
         return reverse("article", kwargs={"slug": self.slug})
+
+    def delete(self, *args, **kwargs):
+        cache.delete(f"zerodesk_article:{self.slug}")
+        super().delete(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Articles'

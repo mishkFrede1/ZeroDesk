@@ -14,6 +14,7 @@ urlpatterns = [
 
     # ------------------ SITE PATHS ------------------ #
     path('article/<slug:slug>/', views.ArticleDetailView.as_view(), name='article'),
+    path('article/<slug:slug>/delete', views.article_delete, name='article_delete'),
     path('tag/<slug:tag_slug>/', views.TagListView.as_view(), name='tag'),
     path('category/<slug:category_slug>/', views.CategoryListView.as_view(), name='category'),
     path('categories/', views.CategoriesListView.as_view(), name='more_categories'),

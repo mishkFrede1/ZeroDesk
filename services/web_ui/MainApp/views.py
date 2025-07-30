@@ -1,5 +1,6 @@
 from random import randint
 from django.db.models import Count, Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
@@ -93,6 +94,8 @@ class ArticleDetailView(DetailView):
         context["related_articles_count"] = len(context["related_articles"])
         return context
 
+def article_delete(request, slug):
+    return HttpResponseRedirect(f"/admin/MainApp/articles/{Articles.objects.get(slug=slug).pk}/delete")
 
 class TagListView(ListView):
     template_name = "MainApp/tag.html"
