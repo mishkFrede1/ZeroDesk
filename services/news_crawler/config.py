@@ -15,56 +15,11 @@ CATEGORIES = {
     "none": "None",
 }
 
-IGN_CATEGORY = [
-    {
-        "url": "https://feeds.feedburner.com/ign/news",
-        "category": CATEGORIES["video_games"],
-    }
-]
-
-ARTNEWS_CATEGORY = [
-    {
-        "url": "https://www.artnews.com/feed/",
-        "category": CATEGORIES["culture_and_art"],
-    }
-]
-
 BOOOOOOOM_CATEGORY = [
     {
         "url": "https://www.booooooom.com/feed/",
         "category": CATEGORIES["culture_and_art"],
     }
-]
-
-CBSNEWS_CATEGORY = [
-    {
-        "url": "https://www.cbsnews.com/latest/rss/politics",
-        "category": CATEGORIES["politics"],
-    },
-    {
-        "url": "https://www.cbsnews.com/latest/rss/entertainment",
-        "category": CATEGORIES["entertainment"],
-    },
-    {
-        "url": "https://www.cbsnews.com/latest/rss/world",
-        "category": CATEGORIES["world"],
-    },
-    {
-        "url": "https://www.cbsnews.com/latest/rss/technology",
-        "category": CATEGORIES["technology"],
-    },
-    {
-        "url": "https://www.cbsnews.com/latest/rss/science",
-        "category": CATEGORIES["science"],
-    },
-    {
-        "url": "https://www.cbsnews.com/latest/rss/health",
-        "category": CATEGORIES["health"],
-    },
-    {
-        "url": "https://www.cbsnews.com/latest/rss/space",
-        "category": CATEGORIES["none"],
-    },
 ]
 
 FOXNEWS_CATEGORIES = [
@@ -95,20 +50,6 @@ FOXNEWS_CATEGORIES = [
     {
         "url": "https://moxie.foxnews.com/google-publisher/tech.xml",
         "category": CATEGORIES["technology"]
-    }
-]
-
-PCGAMER_CATEGORY = [
-    {
-        "url": "https://www.pcgamer.com/rss/",
-        "category": CATEGORIES["video_games"]
-    }
-]
-
-MENSHEALTH_CATEGORY = [
-    {
-        "url": "https://www.menshealth.com/rss/all.xml/",
-        "category": CATEGORIES["health"]
     }
 ]
 
@@ -150,6 +91,65 @@ BBC_CATEGORIES = [
         "category": CATEGORIES["none"]
     }
 ]
+
+# CBSNEWS_CATEGORY = [
+#     {
+#         "url": "https://www.cbsnews.com/latest/rss/politics",
+#         "category": CATEGORIES["politics"],
+#     },
+#     {
+#         "url": "https://www.cbsnews.com/latest/rss/entertainment",
+#         "category": CATEGORIES["entertainment"],
+#     },
+#     {
+#         "url": "https://www.cbsnews.com/latest/rss/world",
+#         "category": CATEGORIES["world"],
+#     },
+#     {
+#         "url": "https://www.cbsnews.com/latest/rss/technology",
+#         "category": CATEGORIES["technology"],
+#     },
+#     {
+#         "url": "https://www.cbsnews.com/latest/rss/science",
+#         "category": CATEGORIES["science"],
+#     },
+#     {
+#         "url": "https://www.cbsnews.com/latest/rss/health",
+#         "category": CATEGORIES["health"],
+#     },
+#     {
+#         "url": "https://www.cbsnews.com/latest/rss/space",
+#         "category": CATEGORIES["none"],
+#     },
+# ]
+
+# PCGAMER_CATEGORY = [
+#     {
+#         "url": "https://www.pcgamer.com/rss/",
+#         "category": CATEGORIES["video_games"]
+#     }
+# ]
+
+# MENSHEALTH_CATEGORY = [
+#     {
+#         "url": "https://www.menshealth.com/rss/all.xml/",
+#         "category": CATEGORIES["health"]
+#     }
+# ]
+
+# IGN_CATEGORY = [
+#     {
+#         "url": "https://feeds.feedburner.com/ign/news",
+#         "category": CATEGORIES["video_games"],
+#     }
+# ]
+
+# ARTNEWS_CATEGORY = [
+#     {
+#         "url": "https://www.artnews.com/feed/",
+#         "category": CATEGORIES["culture_and_art"],
+#     }
+# ]
 
 # CNN_CATEGORIES = [
 #     {

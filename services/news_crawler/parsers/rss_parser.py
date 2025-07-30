@@ -15,6 +15,7 @@ class RSSParser:
     sys_name = "RSSParserDefaultName"
     categories = None
     guid = True
+    articles_per_category = 1
 
     article_main_object_find_type = ""
     article_main_object = None

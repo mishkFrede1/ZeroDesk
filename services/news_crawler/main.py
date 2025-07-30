@@ -11,7 +11,7 @@ init_db()
 
 def run():
     try:
-        articles = parse_all_sources(0)
+        articles = parse_all_sources()
         length = len(articles)
         logger.info(f"[MAIN PARSER] Start sending: {length} articles")
         for article in articles:

@@ -1,4 +1,5 @@
-from parsers import bbc, foxnews, booooooom, menshealth, artnews
+from parsers import bbc, foxnews, booooooom
+from parsers.unused_parsers import menshealth, artnews
 from parsers.main_parser import parse_all_sources
 
 def general_parsers_assert(articles_list):
