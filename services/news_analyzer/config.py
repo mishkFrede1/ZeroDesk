@@ -118,6 +118,7 @@ SYSTEM_PROMPT_FOR_LLM = (
     "Your response must start with '{' and end with '}', and contain ONLY JSON, nothing else.\n"
     "DO NOT USE backticks (`), triple quotes, or markdown formatting.\n"
     "DO NOT NAME JSON! DON'T WRITE ANY NAMES BEFORE '{'"
+    "DO NOT WRITE ANY OTHER TEXT EXCEPT TEXT IN THIS FIELDS IN EXAMPLE BELOW:"
 
     "\n\n"
     "== EXAMPLE ==\n"
