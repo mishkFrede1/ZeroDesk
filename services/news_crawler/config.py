@@ -15,6 +15,13 @@ CATEGORIES = {
     "none": "None",
 }
 
+NURKZ_CATEGORIES = [
+    {
+        "url": "https://www.nur.kz/rss/all.rss",
+        "category": CATEGORIES["none"],
+    }
+]
+
 RIANEWS_CATEGORIES = [
     {
         "url": "https://ria.ru/export/rss2/archive/index.xml",
