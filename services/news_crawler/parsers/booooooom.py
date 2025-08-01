@@ -8,4 +8,4 @@ class BooooooomParser(RSSParser):
     article_main_object = "single-post-container"
     bad_blocks = ["#widgetpost", ".yarpp, .yarpp-related, .yarpp-related-website, .yarpp-template-yarpp-template-booooooom"]
     bad_img_patterns = ["loader", "facebook"]
-    articles_per_category = 1
+    # articles_per_category = 0

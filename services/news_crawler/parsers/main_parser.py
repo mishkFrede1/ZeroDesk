@@ -4,6 +4,7 @@ from parsers.foxnews import FoxNewsParser
 from parsers.booooooom import BooooooomParser
 from parsers.rianews import RiaNewsParser
 from parsers.nurkz import NurKzParser
+from parsers.rbcnews import RbcNewsParser
 
 
 logger = get_logger()
@@ -14,9 +15,11 @@ def parse_all_sources(save_in_db=True):
     parsers = [
         BBCParser(),
         FoxNewsParser(),
-        BooooooomParser(),
         RiaNewsParser(),
-        NurKzParser()
+        NurKzParser(),
+        RbcNewsParser(),
+        
+        BooooooomParser(),
     ]
 
     for parser in parsers:
