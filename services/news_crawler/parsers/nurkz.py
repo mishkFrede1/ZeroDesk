@@ -8,4 +8,4 @@ class NurKzParser(RSSParser):
     article_main_object_find_type = "class"
     article_main_object = "article"
     bad_blocks = [".subscription", ".info-link-container, .astro-snohcbaj"]
-    articles_per_category = 2
+    articles_per_category = 1

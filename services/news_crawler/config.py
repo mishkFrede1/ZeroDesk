@@ -15,6 +15,13 @@ CATEGORIES = {
     "none": "None",
 }
 
+RBCNEWS_CATEGORIES = [
+    {
+        "url": "https://rssexport.rbc.ru/rbcnews/news/30/full.rss",
+        "category": CATEGORIES["none"],
+    }
+]
+
 NURKZ_CATEGORIES = [
     {
         "url": "https://www.nur.kz/rss/all.rss",
