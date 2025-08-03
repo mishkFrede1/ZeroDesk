@@ -18,7 +18,6 @@ def parse_all_sources(save_in_db=True):
         RiaNewsParser(),
         NurKzParser(),
         RbcNewsParser(),
-
         BooooooomParser(),
     ]
 
