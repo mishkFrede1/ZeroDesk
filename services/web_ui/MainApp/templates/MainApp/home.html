@@ -2,6 +2,10 @@
 {% load static %}
 {% load custom_naturaltime %}
 
+{% block header-left %}
+<button class="mobile-sidebar-button" onclick="toggleSidebar()">☰</button>
+{% endblock %}
+
 {% block content %}
 <div class="ibm-plex-mono-medium main-container">
     <div class="left-container">
@@ -40,22 +44,7 @@
     </div>
 
     <div class="right-container">
-        <div class="categories">
-            <h2>CATEGORIES</h2>
-            <ul class="categories-list">
-                {% for category in categories %}
-                    <li class="category">
-                        <div class="category-line"></div>
-                        <div class="category-name">
-                            <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-                            <h3>⟶</h3>
-                        </div>
-                    </li>
-                {% endfor %}
-                <div class="category-line"></div>
-            </ul>
-            <a class="category-button" href="{% url 'more_categories' %}"><div>More</div> ⟶</a>
-        </div>
+        {% include 'MainApp/include/categories.html' %}
         <div class="popular-tags">
             <h2>POPULAR TAGS</h2>
             <div class="tags-container">
@@ -66,6 +55,22 @@
         </div>
     </div>
 </div>
+<aside class="mobile-sidebar" id="mobile-sidebar">
+    <div class="sidebar-header">
+        <button class="sidebar-button" onclick="toggleSidebar()">↶</button>
+    </div>
+    <div class="sidebar-categories">
+        {% include 'MainApp/include/categories.html' %}
+    </div>
+    <div class="popular-tags">
+        <h2>POPULAR TAGS</h2>
+        <div class="tags-container">
+            {% for tag in popular_tags %}
+                <a href="{{ tag.get_absolute_url }}" class="tag">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</aside>
 <div class="main-container-bottom">
     {% for item in categories_with_articles %}
         <div class="category-news-container">
@@ -105,4 +110,7 @@
         <a class="latest-more-button" href="{% url 'latest_news' %}"><div>See more</div> ⟶</a>
     </div>
 </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'MainApp/js/mobile_sidebar.js' %}"></script>
 {% endblock %}

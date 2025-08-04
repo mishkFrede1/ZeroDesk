@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZeroDesk</title>
     <link rel="stylesheet" type="text/css" href="{% static 'MainApp/css/new_styles.css' %}"></link>
 
@@ -15,7 +16,7 @@
 
 <div class="header-wrapper">
     <div class="header">
-        <div class="header-left"></div>
+        <div class="header-left">{% block header-left %}{% endblock %}</div>
         <div class="header-center"><strong><a href="{% url 'home' %}">ZERO DESK</a></strong></div>
         <div class="header-right">
             <form action="{% url 'search' %}" method="GET" class="group">

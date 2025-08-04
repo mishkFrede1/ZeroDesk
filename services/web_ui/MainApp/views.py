@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
-from django.core.cache import cache
+from django.core import cache
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -28,7 +28,7 @@ class IndexView(ListView):
         context["left_articles"] = context["articles"][2:6]
         context["latest_articles"] = context["articles"][6:17]
         context["categories"] = Categories.objects.all()[:9]
-        context["popular_tags"] = Tags.objects.annotate(article_count=Count('tag_elements')).order_by('-article_count')[:50]
+        context["popular_tags"] = Tags.objects.annotate(article_count=Count('tag_elements')).order_by('-article_count')[:25]
         categories_with_articles = []
         exclude_articles = [ article.pk for article in context["main_articles"]|context["left_articles"] ]
         for category in Categories.objects.filter(name__in=self.bottom_categories):

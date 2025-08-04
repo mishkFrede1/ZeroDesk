@@ -24,4 +24,13 @@
             <a href="?{{ search_value }}{{ sort_value }}page={{ page_obj.next_page_number }}" class="pagination-button">></a>
         {% endif %}
     </div>
+    <div class="mobile-pagination">
+        {% if page_obj.has_previous %}
+            <a href="?{{ search_value }}{{ sort_value }}page={{ page_obj.previous_page_number }}" class="pagination-button"><</a>
+        {% endif %}
+        <a>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
+        {% if page_obj.has_next %}
+            <a href="?{{ search_value }}{{ sort_value }}page={{ page_obj.next_page_number }}" class="pagination-button">></a>
+        {% endif %}
+    </div>
 {% endif %}
