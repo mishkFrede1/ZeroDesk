@@ -75,6 +75,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'MainApp.context_processors.get_nav',
+                'MainApp.context_processors.get_popular_tags',
+                'MainApp.context_processors.get_categories',
             ],
         },
     },

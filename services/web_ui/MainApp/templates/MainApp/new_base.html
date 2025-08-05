@@ -16,7 +16,7 @@
 
 <div class="header-wrapper">
     <div class="header">
-        <div class="header-left">{% block header-left %}{% endblock %}</div>
+        <div class="header-left"><a class="mobile-sidebar-button" onclick="toggleSidebar()">☰</a></div>
         <div class="header-center"><strong><a href="{% url 'home' %}">ZERO DESK</a></strong></div>
         <div class="header-right">
             <form action="{% url 'search' %}" method="GET" class="group">
@@ -28,9 +28,23 @@
     <div class="header-line"></div>
 </div>
 
+<aside class="mobile-sidebar" id="mobile-sidebar">
+    <div class="sidebar-header">
+        <a class="sidebar-button" onclick="toggleSidebar()">↶</a>
+    </div>
+    {% include 'MainApp/include/categories.html' %}
+    <div class="sidebar-tags">
+        {% include 'MainApp/include/popular_tags.html' %}
+    </div>
+    {% if request.path == '/' %}
+        {% include 'MainApp/include/left_container_news.html' %}
+    {% endif %}
+</aside>
+
 {% block content %}{% endblock %}
 
 {% block js %}{% endblock %}
 <script src="{% static 'MainApp/js/header_shrink.js' %}"></script>
+<script src="{% static 'MainApp/js/mobile_sidebar.js' %}"></script>
 </body>
 </html>
