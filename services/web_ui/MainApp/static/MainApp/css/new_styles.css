@@ -680,18 +680,19 @@
     margin-top: 1rem;
 }
 .article-container h4 {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    margin: 0.6rem 0;
-}
-.article-container hr {
-    margin-bottom: 0.6rem;
+    margin: 0.3rem 0;
+    color: #595959;
 }
 .article-content {
     display: flex;
     flex-direction: column;
     line-height: 1.5;
     padding: 0 12.5rem;
+}
+.article-content hr {
+    margin-bottom: 0.8rem;
 }
 .article-content p {
     margin: 0.6rem 0;
