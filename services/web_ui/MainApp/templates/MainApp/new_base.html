@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZeroDesk</title>
     <link rel="stylesheet" type="text/css" href="{% static 'MainApp/css/new_styles.css' %}"></link>
+    <link rel="icon" type="image/x-icon" href="{% static 'MainApp/img/favicon.ico' %}"></link>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +31,11 @@
 
 <aside class="mobile-sidebar" id="mobile-sidebar">
     <div class="sidebar-header">
-        <a class="sidebar-button" onclick="toggleSidebar()">↶</a>
+        <form action="{% url 'search' %}" method="GET" class="group-mobile">
+            <button type="submit" class="search-submit"><img src="{% static 'MainApp/img/glass.png' %}"></button>
+            <input type="search" class="search-input" name="search" value="{% if input_value %}{{ input_value }}{% endif %}">
+        </form>
+{#        <a class="sidebar-button" onclick="toggleSidebar()">↶</a>#}
     </div>
     {% include 'MainApp/include/categories.html' %}
     <div class="sidebar-tags">
