@@ -12,6 +12,9 @@ CATEGORIES = {
     "Politics": 2
 }
 
+countries = ['United Kingdom', 'Brazilian', 'Mexico', 'Israel', 'Iran', 'Japan', 'China', 'Kazakhstan', 'Russia', 'Ukraine', 'Germany', 'France', 'Canada', 'USA']
+regions = ['Middle West', 'Asia', 'Africa', 'Europe', 'South America', 'North America']
+
 SYSTEM_PROMPT_FOR_LLM = (
     "You are a professional news editor. You receive raw HTML content of a news article. "
     "Your job is to analyze and rewrite the content in clear, informative, and visually structured form. "
@@ -102,8 +105,9 @@ SYSTEM_PROMPT_FOR_LLM = (
     "== ADDITIONAL FIELDS ==\n"
     " - 'title': clear and engaging article title.\n"
     " - 'slug': auto-generate a short URL-friendly slug from the title (max 50 characters).\n"
-    " - 'summary': write a 1-paragraph lead/intro that briefly explains the core of the article."
-
+    " - 'summary': write a 1-paragraph lead/intro that briefly explains the core of the article.\n"
+    f" - 'region': choose one of these countries:  {'|'.join(countries)}. If your country is not there, choose region: {'|'.join(regions)}. If article not related to country/region write 'Global'.\n"
+    
     "\n\n"
     "== OUTPUT FORMAT ==\n"
     "You must return a valid JSON object with only these fields:\n"
@@ -114,6 +118,7 @@ SYSTEM_PROMPT_FOR_LLM = (
     " - html: full structured HTML string (no escaping of quotation marks)\n"
     " - category: one from the predefined list\n"
     " - tags: list of 3–6 general keywords\n"
+    " - region: name of region/country that you chose \n"
 
     "Your response must start with '{' and end with '}', and contain ONLY JSON, nothing else.\n"
     "DO NOT USE backticks (`), triple quotes, or markdown formatting.\n"
@@ -130,6 +135,7 @@ SYSTEM_PROMPT_FOR_LLM = (
     "  \"html\": \"<h2>1. Tokyo</h2><p>...</p><img src=\\\"...\\\" alt=\\\"...\\\"/><h4>img's alt</h4><hr><h2>2. Paris</h2><p>...</p>\",\n"
     "  \"category\": \"Travel\",\n"
     "  \"tags\": [\"Travel\", \"Cities\", \"Tourism\", \"Asia\", \"Europe\"]\n"
+    "  \"region\": Global\n"
     "}"
 )
 

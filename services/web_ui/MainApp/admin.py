@@ -5,6 +5,7 @@ from . import models
 
 # Register your models here.
 admin.site.register(models.Tags)
+admin.site.register(models.Region)
 
 @admin.register(models.Articles)
 class ArticlesAdmin(admin.ModelAdmin):

@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from MainApp.models import *
 from MainApp.paginations import ArticlesPagination
 from MainApp.permissions import IsNeuralNetUser
-from MainApp.serializers import ArticleSerializer, CategoriesSerializer, TagsSerializer
+from MainApp.serializers import ArticleSerializer, CategoriesSerializer, TagsSerializer, RegionSerializer
 from MainApp.utils import sort_values_list
 
 class IndexView(ListView):
@@ -229,3 +229,14 @@ class TagsViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
     pagination_class = None
     permission_classes = [IsAuthenticated, IsNeuralNetUser]
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def get_region_by_name(request, region_name):
+    if request.method == 'GET':
+        region = Region.objects.get(name=region_name)
+        serializer = RegionSerializer(region)
+        return Response(serializer.data)

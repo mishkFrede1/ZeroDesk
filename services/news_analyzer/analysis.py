@@ -22,6 +22,7 @@ API_KEY = os.environ['OPEN_ROUTER_API_KEY_1']
 WEBUI_API = os.environ['WEBUI_API']
 WEBUI_API_TAGS = os.environ['WEBUI_API_TAGS']
 TOKEN = os.environ["neural_network_user_token"]
+WEBUI_API_REGION = os.environ['WEBUI_API_REGION']
 
 
 def slugify(s):
@@ -88,6 +89,7 @@ def send_to_webui(analyzed_article):
                         logger.info(response.content)
                         logger.error("[WEBUI SENDER] [ERROR] Failed to create tag for article")
 
+            region = requests.get(f'{WEBUI_API_REGION}{analyzed_article["region"]}')
             files = {
                 "image": image_bytes
             }
@@ -97,7 +99,8 @@ def send_to_webui(analyzed_article):
                 "summary": analyzed_article["summary"],
                 "content": analyzed_article["html"],
                 "category": config.CATEGORIES[analyzed_article["category"]],
-                "tags": tags
+                "tags": tags,
+                "region": region.json()["id"],
             }
             logger.info("[WEBUI SENDER] Sending to web_ui")
             res = requests.post(WEBUI_API, data=data, files=files, headers=headers)

@@ -16,6 +16,7 @@ class Articles(models.Model):
     is_published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    region = models.ForeignKey('Region', null=True, blank=True, on_delete=models.SET_NULL, related_name='region_elements')
 
     def __str__(self):
         return self.title
@@ -30,6 +31,17 @@ class Articles(models.Model):
     class Meta:
         verbose_name_plural = 'Articles'
         ordering = ['-created_at']
+
+class Region(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(unique=True)
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("region", kwargs={"slug": self.slug})
 
 class Categories(models.Model):
     name = models.CharField(max_length=255)

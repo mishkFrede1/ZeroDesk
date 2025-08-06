@@ -6,7 +6,7 @@ class RiaNewsParser(RSSParser):
     sys_name = "RIA NEWS"
     categories = RIANEWS_CATEGORIES
     text_in_div = True
-    articles_per_category = 1
+    articles_per_category = 3
     text_in_div_class = 'article__text'
     article_main_object_find_type = "class"
     article_main_object = "layout-article__600-align"

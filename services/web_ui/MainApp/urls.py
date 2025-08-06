@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/v1/', include(articles_router.urls)),
     path('api/v1/', include(categories_router.urls)),
     path('api/v1/', include(tags_router.urls)),
+    path('api/v1/get-region/<str:region_name>', views.get_region_by_name, name='get_region'),
 ]

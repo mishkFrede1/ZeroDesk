@@ -13,8 +13,8 @@ def parse_all_sources(save_in_db=True):
     articles = []
 
     parsers = [
-        BBCParser(),
-        FoxNewsParser(),
+        # BBCParser(),
+        # FoxNewsParser(),
         RiaNewsParser(),
         NurKzParser(),
         RbcNewsParser(),
