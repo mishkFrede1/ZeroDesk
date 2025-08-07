@@ -89,7 +89,7 @@ def send_to_webui(analyzed_article):
                         logger.info(response.content)
                         logger.error("[WEBUI SENDER] [ERROR] Failed to create tag for article")
 
-            region = requests.get(f'{WEBUI_API_REGION}{analyzed_article["region"]}')
+            region = requests.get(f'{WEBUI_API_REGION}{analyzed_article["region"]}', headers=headers)
             files = {
                 "image": image_bytes
             }
