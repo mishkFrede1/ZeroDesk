@@ -5,8 +5,11 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from django.core import cache
+
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
 
 from MainApp.models import *
 from MainApp.paginations import ArticlesPagination
@@ -23,7 +26,7 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(kwargs)
-        context["articles"] = Articles.objects.exclude(category__name="Video Games")
+        context["articles"] = Articles.objects.exclude(category__name__icontains=["Video Games", "Culture and Art", "Entertainment"])
         context["main_articles"] = context["articles"][:2]
         context["left_articles"] = context["articles"][2:6]
         context["latest_articles"] = context["articles"][6:17]
@@ -40,6 +43,7 @@ class IndexView(ListView):
             })
         context["categories_with_articles"] = categories_with_articles
         return context
+
 
 class ArticleDetailView(DetailView):
     template_name = "MainApp/article.html"
@@ -94,8 +98,10 @@ class ArticleDetailView(DetailView):
         context["related_articles_count"] = len(context["related_articles"])
         return context
 
+
 def article_delete(request, slug):
     return HttpResponseRedirect(f"/admin/MainApp/articles/{Articles.objects.get(slug=slug).pk}/delete")
+
 
 class TagListView(ListView):
     template_name = "MainApp/tag.html"
@@ -166,6 +172,7 @@ class CategoryListView(ListView):
         context["category"] = get_object_or_404(Categories, slug=self.kwargs['category_slug'])
         return context
 
+
 class SearchView(ListView):
     model = Articles
     template_name = "MainApp/search.html"
@@ -211,17 +218,20 @@ class CategoriesListView(ListView):
     context_object_name = "categories"
     queryset = Categories.objects.all()
 
+
 class ArticlesViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Articles.objects.all()
     pagination_class = ArticlesPagination
     permission_classes = [IsAuthenticated, IsNeuralNetUser]
 
+
 class CategoriesViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriesSerializer
     queryset = Categories.objects.all()
     pagination_class = None
     permission_classes = [IsAuthenticated, IsNeuralNetUser]
+
 
 class TagsViewSet(viewsets.ModelViewSet):
     serializer_class = TagsSerializer
@@ -231,10 +241,8 @@ class TagsViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsNeuralNetUser]
 
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-
 @api_view(['GET'])
+@permission_classes([IsAuthenticated, IsNeuralNetUser])
 def get_region_by_name(request, region_name):
     if request.method == 'GET':
         region = Region.objects.get(name=region_name)

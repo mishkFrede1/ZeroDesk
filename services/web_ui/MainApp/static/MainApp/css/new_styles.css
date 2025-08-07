@@ -657,10 +657,17 @@
     flex-direction: column;
     width: 100%;
 }
+.article-region {
+    color: #595959;
+    text-decoration: none;
+}
+.article-region:hover {
+    text-decoration: underline;
+}
 .article-category {
     text-decoration: none;
     color: #0a0908;
-    margin-bottom: 1.2rem;
+    margin-right: 0.7rem;
 }
 .article-category:hover {
     text-decoration: underline 1px;

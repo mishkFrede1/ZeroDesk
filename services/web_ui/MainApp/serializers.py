@@ -8,15 +8,18 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Articles
         fields = '__all__'
 
+
 class CategoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categories
         fields = '__all__'
 
+
 class TagsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = '__all__'
+
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:

@@ -21,7 +21,7 @@
             <div class="main-article">
                 <a href="{{ article.get_absolute_url }}" class="image-wrapper">
                     <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
-                    <span>{{ article.created_at|custom_natural_time }}</span>
+                    <span>{{ article.created_at|custom_natural_time }}{% if article.region and article.region != "Global" %} | {{ article.region }}{% endif %}</span>
                     <h1>{{ article.title }}</h1>
                     <h3>{{ article.summary }}</h3>
                 </a>
@@ -64,7 +64,7 @@
                         <h1>{{ item.title }}</h1>
                         <h3>{{ item.summary }}</h3>
                     </div>
-                    <span>{{ item.created_at|custom_natural_time }}</span>
+                    <span>{{ item.created_at|custom_natural_time }}{% if article.region and article.region != "Global" %} | {{ article.region }}{% endif %}</span>
                 </div>
             </a>
         </div>

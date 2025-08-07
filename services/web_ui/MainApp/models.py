@@ -32,6 +32,7 @@ class Articles(models.Model):
         verbose_name_plural = 'Articles'
         ordering = ['-created_at']
 
+
 class Region(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(unique=True)
@@ -42,6 +43,7 @@ class Region(models.Model):
 
     def get_absolute_url(self):
         return reverse("region", kwargs={"slug": self.slug})
+
 
 class Categories(models.Model):
     name = models.CharField(max_length=255)
@@ -55,6 +57,7 @@ class Categories(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
+
 
 class Tags(models.Model):
     name = models.CharField(max_length=255)

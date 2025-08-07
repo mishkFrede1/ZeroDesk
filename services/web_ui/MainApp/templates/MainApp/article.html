@@ -8,6 +8,7 @@
             <a href="{{ article.category.get_absolute_url }}" class="article-category">{{ article.category }}</a>
             <h1>{{ article.title }}</h1>
             <div class="article-info">
+                <a href="" class="article-region">{{ article.region }} Region</a> - 
                 {{ article.created_at }}
             </div>
             <img src="{{ article.image.url }}" alt="{{ article.title }}"/>

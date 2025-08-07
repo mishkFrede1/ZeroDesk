@@ -17,7 +17,7 @@
                         <h1>{{ item.title }}</h1>
                         <h3>{{ item.summary }}</h3>
                     </div>
-                    <span>{{ item.created_at|custom_natural_time }}</span>
+                    <span>{{ item.created_at|custom_natural_time }}{% if item.region and item.region != "Global" %} | {{ item.region }}{% endif %}</span>
                 </div>
             </a>
         </div>
