@@ -1,0 +1,105 @@
+{% extends 'MainApp/new_base.html' %}
+{% load static %}
+{% load custom_naturaltime %}
+
+{% block content %}
+<div class="country-mobile-head-part">
+    <div class="countries-menu mobile-menu">
+        {% for country in countries %}
+            {% if country.region_elements.all|length > 0 %}
+                <a href="{% url 'countries' country.slug %}" class="country-button {% if country.slug == country_object.slug %}active{% endif %}"><h1>{{ country.name }}</h1></a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="country-article-mobile-1">
+        <a href="{{ articles_1.get_absolute_url }}" class="image-wrapper">
+            <img src="{{ articles_1.image.url }}" alt="{{ articles_1.title }}"/>
+            <h1>{{ articles_1.title }}</h1>
+            <span>{{ articles_1.created_at|custom_natural_time }}</span>
+        </a>
+    </div>
+</div>
+<div class="page-container">
+    <div class="countries-menu">
+        {% for country in countries %}
+            {% if country.region_elements.all|length > 0 %}
+                <a href="{% url 'countries' country.slug %}" class="country-button {% if country.slug == country_object.slug %}active{% endif %}"><h1>{{ country.name }}</h1></a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div>
+        <div class="country-main">
+            <div class="country-main-block">
+                <div class="country-main-1">
+                    <a href="{{ articles_1.get_absolute_url }}" class="image-wrapper">
+                        <img src="{{ articles_1.image.url }}" alt="{{ articles_1.title }}"/>
+                        <span>{{ articles_1.created_at|custom_natural_time }}</span>
+                        <h1>{{ articles_1.title }}</h1>
+                        <h3>{{ articles_1.summary }}</h3>
+                    </a>
+                </div>
+                <div class="country-main-2">
+                    {% for article in articles_2 %}
+                        <div class="country-main-2-subarticle">
+                            <a href="{{ article.get_absolute_url }}" class="image-wrapper">
+                                <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                                <h1>{{ article.title }}</h1>
+                                <span>{{ article.created_at|custom_natural_time }}</span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="country-second-block">
+                {% for article in articles_3 %}
+                    <div class="country-article-3">
+                        <a href="{{ article.get_absolute_url }}" class="image-wrapper">
+                            <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                            <h1>{{ article.title }}</h1>
+                            <span>{{ article.created_at|custom_natural_time }}</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="country-main-mobile">
+            {% for article in articles_mobile %}
+                <div class="latest-article">
+                    <a href="{{ article.get_absolute_url }}" class="latest-article-wrapper">
+                        <div class="latest-article-img country-latest-img">
+                            <img src="{{ article.image.url }}" alt="{{ article.title }}"/>
+                        </div>
+                        <div class="latest-article-text country-latest-text">
+                            <div>
+                                <h1>{{ article.title }}</h1>
+                            </div>
+                            <span>{{ article.created_at|custom_natural_time }}</span>
+                        </div>
+                    </a>
+                </div>
+                {% if not forloop.last %}<hr>{% endif %}
+            {% endfor %}
+        </div>
+        <h2 class="country-latest">LATEST</h2>
+        <hr>
+        <div class="latest-articles-container country-latest-container">
+            {% for item in articles %}
+                <div class="latest-article">
+                    <a href="{{ item.get_absolute_url }}" class="latest-article-wrapper">
+                        <div class="latest-article-img country-latest-img">
+                            <img src="{{ item.image.url }}" alt="{{ item.title }}"/>
+                        </div>
+                        <div class="latest-article-text country-latest-text">
+                            <div>
+                                <h1>{{ item.title }}</h1>
+                                <h3>{{ item.summary }}</h3>
+                            </div>
+                            <span>{{ item.created_at|custom_natural_time }}{% if article.region and article.region != "Global" %} | {{ article.region }}{% endif %}</span>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

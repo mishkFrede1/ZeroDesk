@@ -20,6 +20,7 @@ urlpatterns = [
     path('categories/', views.CategoriesListView.as_view(), name='more_categories'),
     path('latest-news/', views.LatestListView.as_view(), name='latest_news'),
     path('search/', views.SearchView.as_view(), name='search'),
+    path('countries/<slug:country_slug>', views.CountriesView.as_view(), name='countries'),
 
     # ------------------ API ------------------ #
     path('api/v1/', include(articles_router.urls)),

@@ -30,7 +30,7 @@ class IndexView(ListView):
         context["main_articles"] = context["articles"][:2]
         context["left_articles"] = context["articles"][2:6]
         context["latest_articles"] = context["articles"][6:17]
-        context["categories"] = Categories.objects.all()[:9]
+        context["categories"] = Categories.objects.all().exclude(name__in=["Video Games", "Entertainment"])[:8]
         context["popular_tags"] = Tags.objects.annotate(article_count=Count('tag_elements')).order_by('-article_count')[:25]
         categories_with_articles = []
         exclude_articles = [ article.pk for article in context["main_articles"]|context["left_articles"] ]
@@ -211,6 +211,25 @@ class SearchView(ListView):
 
         context["input_value"] = self.request.GET.get('search')
         return context
+
+class CountriesView(ListView):
+    template_name = "MainApp/countries.html"
+    context_object_name = "countries"
+    model = Region
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(kwargs)
+        context["country_object"] = get_object_or_404(Region, slug=self.kwargs['country_slug'])
+        all = context["country_object"].region_elements.all()
+        context["articles_1"] = all[:1].first()
+        context["articles_2"] = all[1:3]
+        context["articles_3"] = all[3:7]
+        context["articles"] = all[7:]
+        context["articles_mobile"] = context["articles_2"] | context["articles_3"]
+        return context
+
+
 
 # ------------------ API VIEWSETS ------------------ #
 class CategoriesListView(ListView):
