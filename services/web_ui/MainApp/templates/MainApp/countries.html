@@ -4,12 +4,18 @@
 
 {% block content %}
 <div class="country-mobile-head-part">
-    <div class="countries-menu mobile-menu">
-        {% for country in countries %}
-            {% if country.region_elements.all|length > 0 %}
-                <a href="{% url 'countries' country.slug %}" class="country-button {% if country.slug == country_object.slug %}active{% endif %}"><h1>{{ country.name }}</h1></a>
-            {% endif %}
-        {% endfor %}
+    <div class="countries-container-mobile">
+        <div class="region-list collapsed">
+            {% for country in countries %}
+    {#            {% if country.region_elements.all|length > 0 %}#}
+                    <a href="{% url 'countries' country.slug %}" class="country-button {% if country.slug == country_object.slug %}active{% endif %}"><h1>{{ country.name }}</h1></a>
+    {#            {% endif %}#}
+            {% endfor %}
+        </div>
+        <div class="fade-effect"></div>
+        <div class="toggle-button">
+            Show More
+        </div>
     </div>
     <div class="country-article-mobile-1">
         <a href="{{ articles_1.get_absolute_url }}" class="image-wrapper">
@@ -102,4 +108,24 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    document.querySelector('.toggle-button').addEventListener('click', function() {
+        const list = document.querySelector('.region-list');
+        const fade = document.querySelector('.fade-effect');
+        if (list.classList.contains('collapsed')) {
+            list.classList.remove('collapsed');
+            fade.style.display = 'none';
+            this.style.marginTop = '2rem';
+            this.textContent = 'Show Less';
+        } else {
+            list.classList.add('collapsed');
+            fade.style.display = 'block';
+            this.style.marginTop = '0';
+            this.textContent = 'Show More';
+        }
+    });
+</script>
 {% endblock %}
